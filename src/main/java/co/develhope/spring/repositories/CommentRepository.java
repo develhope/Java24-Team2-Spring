@@ -1,6 +1,6 @@
-package com.develhope.spring.repositories;
+package co.develhope.spring.repositories;
 
-import com.develhope.spring.entities.Comment;
+import co.develhope.spring.entities.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
