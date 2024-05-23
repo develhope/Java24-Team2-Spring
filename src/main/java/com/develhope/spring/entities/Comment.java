@@ -1,9 +1,13 @@
 package com.develhope.spring.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.web.JsonPath;
 
 import java.time.LocalDateTime;
 
@@ -19,9 +23,14 @@ public class Comment {
     private Long id;
 
     @Column(nullable = false)
+    @NotNull
+    @NotBlank
+    @Size(min = 1, max = 100)
     private String text;
 
     @Column(nullable = false)
+    @NotNull
+    @NotBlank
     private LocalDateTime dateTime;
 
 //    @OneToOne
@@ -31,4 +40,29 @@ public class Comment {
 //    @OneToOne
 //    private Article article;
     // decommentare quando viene creata la classe Article
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
+    }
 }
