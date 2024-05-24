@@ -7,7 +7,6 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.web.JsonPath;
 
 import java.time.LocalDateTime;
 
@@ -22,13 +21,13 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "comment_text", nullable = false)
     @NotNull
     @NotBlank
     @Size(min = 1, max = 100)
     private String text;
 
-    @Column(nullable = false)
+    @Column(name = "comment_datetime", nullable = false)
     @NotNull
     @NotBlank
     private LocalDateTime dateTime;
