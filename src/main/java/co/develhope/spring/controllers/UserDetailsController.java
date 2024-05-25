@@ -4,7 +4,6 @@ import co.develhope.spring.entities.UserDetails;
 import co.develhope.spring.services.UserDetailService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -12,40 +11,54 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/user-details")
 public class UserDetailsController {
+
+
     @Autowired
-    UserDetailService userDetailService;
+    private UserDetailService userDetailService;
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserDetailsById(@PathVariable Long id) {
-        UserDetails userDetails = userDetailService.getUserDetailsById(id);
-        if (userDetails != null) {
+        try {
+            UserDetails userDetails = userDetailService.getUserDetailsById(id);
             return ResponseEntity.ok(userDetails);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User details not found");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @PostMapping
-    public ResponseEntity<?> postUserDetails(@Valid @RequestBody UserDetails userDetails, BindingResult bindingResult) {
+    public ResponseEntity<?> createUserDetails(@Valid @RequestBody UserDetails userDetails, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().body(bindingResult.hasErrors());
-        } else {
-            return ResponseEntity.ok(userDetailService.createUserDetails(userDetails));
+            return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
+        }
+        try {
+            UserDetails createdUserDetails = userDetailService.createUserDetails(userDetails);
+            return ResponseEntity.ok(createdUserDetails);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateUserDetails(@Valid @RequestBody UserDetails userDetails, @PathVariable Long id,
-                                               BindingResult bindingResult) {
+    public ResponseEntity<?> updateUserDetails(@Valid @RequestBody UserDetails userDetails, BindingResult bindingResult, @PathVariable Long id) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
         }
-        return ResponseEntity.ok(userDetailService.updateUserDetails(userDetails, id));
+        try {
+            UserDetails updatedUserDetails = userDetailService.updateUserDetails(userDetails, id);
+            return ResponseEntity.ok(updatedUserDetails);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteUserDetails(@PathVariable Long id) {
-        userDetailService.deleteUserDetailsById(id);
-        return ResponseEntity.ok("User deleted");
+    public ResponseEntity<?> deleteUserDetailsById(@PathVariable Long id) {
+        try {
+            userDetailService.deleteUserDetailsById(id);
+            return ResponseEntity.ok("User details deleted");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }

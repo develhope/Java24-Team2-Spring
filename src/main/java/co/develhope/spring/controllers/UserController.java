@@ -1,10 +1,9 @@
 package co.develhope.spring.controllers;
 
 import co.develhope.spring.dtos.UserDto;
-import co.develhope.spring.services.UserServiceImpl;
+import co.develhope.spring.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -12,45 +11,54 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/users")
 public class UserController {
+
     @Autowired
-    private UserServiceImpl userService;
+    private UserService userService;
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
-        UserDto user = userService.getUserById(id);
-        if (user != null) {
-            return ResponseEntity.ok(user);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        try {
+            UserDto userDto = userService.getUserById(id);
+            return ResponseEntity.ok(userDto);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @PostMapping
-    public ResponseEntity<?> createUser(@Valid @RequestBody UserDto newUser, BindingResult bindingResult) {
+    public ResponseEntity<?> createUser(@Valid @RequestBody UserDto userDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
         }
-        UserDto createdUser = userService.createUser(newUser);
-        return ResponseEntity.status(HttpStatus.OK).body(createdUser);
+        try {
+            UserDto createdUser = userService.createUser(userDto);
+            return ResponseEntity.ok().body(createdUser);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateUser(@Valid @RequestBody UserDto changeUser, BindingResult bindingResult, @PathVariable Long id) {
+    public ResponseEntity<?> updateUser(@Valid @RequestBody UserDto userDto, BindingResult bindingResult, @PathVariable Long id) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
         }
-        UserDto updatedUser = userService.updateUser(changeUser, id);
-        if (updatedUser != null) {
+        try {
+            UserDto updatedUser = userService.updateUser(userDto, id);
             return ResponseEntity.ok(updatedUser);
-        } else {
-            return ResponseEntity.badRequest().body("User not found");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteUserById(@PathVariable Long id) {
-        userService.deleteUserById(id);
-        return ResponseEntity.ok("User deleted");
+    public ResponseEntity<?> deleteUserById(@PathVariable Long id) {
+        try {
+            userService.deleteUserById(id);
+            return ResponseEntity.ok("User deleted");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
 
