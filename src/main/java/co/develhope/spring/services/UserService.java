@@ -1,19 +1,17 @@
 package co.develhope.spring.services;
 
+import co.develhope.spring.dtos.UserDto;
 import co.develhope.spring.entities.User;
 
 import java.util.List;
 
 public interface UserService {
-    public List<User> getAllUsers();
 
-    public User getUserById(Long id);
+    UserDto getUserById(Long id);
 
-    public User createUser(User user);
+    UserDto createUser(UserDto userDTO);
 
-    public User updateUser (User user, Long id);
+    UserDto updateUser (UserDto userDto, Long id);
 
-    public void deleteUserById(Long id);
-
-    public void deleteAllUser();
+    void deleteUserById(Long id);
 }

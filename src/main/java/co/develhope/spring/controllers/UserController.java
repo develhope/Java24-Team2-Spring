@@ -1,57 +1,56 @@
 package co.develhope.spring.controllers;
 
-import co.develhope.spring.entities.User;
+import co.develhope.spring.dtos.UserDto;
 import co.develhope.spring.services.UserServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-
-@Controller
+@RestController
 @RequestMapping("/users")
 public class UserController {
     @Autowired
-    UserServiceImpl userService;
+    private UserServiceImpl userService;
 
-    @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
-        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
-    }
-
-    @GetMapping("{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
-    }
-
-    @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User newUser) {
-        return new ResponseEntity<>(userService.createUser(newUser), HttpStatus.OK);
-    }
-
-    @PostMapping
-    public ResponseEntity<User> updateUser(@RequestBody User changeUser, @PathVariable Long id) {
-        User updatedUser = userService.updateUser(changeUser, id);
-        if (updatedUser != null) {
-            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getUserById(@PathVariable Long id) {
+        UserDto user = userService.getUserById(id);
+        if (user != null) {
+            return ResponseEntity.ok(user);
         } else {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+    }
+
+    @PostMapping
+    public ResponseEntity<?> createUser(@Valid @RequestBody UserDto newUser, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
+        }
+        UserDto createdUser = userService.createUser(newUser);
+        return ResponseEntity.status(HttpStatus.OK).body(createdUser);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateUser(@Valid @RequestBody UserDto changeUser, BindingResult bindingResult, @PathVariable Long id) {
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
+        }
+        UserDto updatedUser = userService.updateUser(changeUser, id);
+        if (updatedUser != null) {
+            return ResponseEntity.ok(updatedUser);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUserById(@PathVariable Long id) {
+    public ResponseEntity<String> deleteUserById(@PathVariable Long id) {
         userService.deleteUserById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    @DeleteMapping
-    public ResponseEntity<Void> deleteAllUsers() {
-        userService.deleteAllUser();
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.ok("User deleted");
     }
 }
 

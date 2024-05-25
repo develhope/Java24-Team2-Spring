@@ -4,13 +4,13 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
+@Data
 @Entity
 @Table
 public class User {
@@ -18,25 +18,25 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "email", nullable = false, unique = true)
     @NotNull
     @NotBlank
     @Size(min=6,max=50)
     private String email;
 
-    @Column(nullable = false, unique = true)
+    @Column(name= "username",nullable = false, unique = true)
     @NotNull
     @NotBlank
     @Size(min=5, max=20)
     private String username;
 
-    @Column(nullable=false, unique = true)
+    @Column(name="password", nullable=false, unique = true)
     @NotNull
     @NotBlank
     @Size(min=8,max=100)
     private String password;
 
-    @OneToOne(fetch =FetchType.LAZY)
+    @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="user_details")
     private UserDetails userDetails;
 }

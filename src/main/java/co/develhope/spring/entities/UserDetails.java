@@ -1,23 +1,22 @@
 package co.develhope.spring.entities;
 
-import co.develhope.spring.models.Gender;
+import co.develhope.spring.enums.Gender;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
 
-@Entity
-@Table
-@Data
+
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
+@Data
+@Entity
+@Table(name="user_details")
 public class UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -38,7 +37,7 @@ public class UserDetails {
     @Column
     @NotBlank
     @Size(min=5, max=100)
-    private String address;
+    private String city;
 
     @Column
     @NotBlank
@@ -50,6 +49,7 @@ public class UserDetails {
     private LocalDate signUpDate;
 
     @Column
-    @NotBlank
+    @NotNull
+    @Enumerated(EnumType.STRING)
     private Gender gender;
 }

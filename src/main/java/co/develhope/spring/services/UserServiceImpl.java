@@ -1,60 +1,58 @@
 package co.develhope.spring.services;
 
+import co.develhope.spring.dtoconverters.UserMapper;
+import co.develhope.spring.dtos.UserDto;
 import co.develhope.spring.entities.User;
 import co.develhope.spring.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+
 import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService{
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    private UserMapper userMapper;
 
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    @Override
+    public UserDto getUserById(Long id) {
+        User user = userRepository.findById(id).orElseThrow(()->new IllegalArgumentException("User not found"));
+        return userMapper.toDTO(user);
     }
 
     @Override
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
-    }
-
-    @Override
-    public User getUserById(Long id) {
-        Optional<User> user = userRepository.findById(id);
-        return user.orElse(null);
-    }
-
-    @Override
-    public User createUser(User user) {
-        return userRepository.saveAndFlush(user);
-    }
-
-    @Override
-    public User updateUser(User user, Long id) {
-        Optional <User> optionalUser= userRepository.findById(id);
-        if(optionalUser.isPresent()){
-           User existUser = optionalUser.get();
-           existUser.setEmail(user.getEmail());
-           existUser.setUsername((user.getUsername()));
-           existUser.setPassword(user.getPassword());
-           existUser.setUserDetails(user.getUserDetails());
-            return userRepository.saveAndFlush(existUser);
-        }else{
-            return null;
+    public UserDto createUser(UserDto userDTO) {
+        Optional<User> existingUser = userRepository.findById(userDTO.getId());
+        if (existingUser.isPresent()) {
+            throw new IllegalArgumentException("User already exists");
         }
+        User user = userMapper.toEntity(userDTO);
+        User savedUser = userRepository.save(user);
+        return userMapper.toDTO(savedUser);
+    }
+
+
+    @Override
+    public UserDto updateUser(UserDto userDto, Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        user.setUsername(userDto.getUsername());
+        user.setEmail(userDto.getEmail());
+        User updatedUser = userRepository.saveAndFlush(user);
+        return userMapper.toDTO(updatedUser);
     }
 
     @Override
     public void deleteUserById(Long id) {
-        userRepository.deleteById(id);
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isPresent()) {
+            userRepository.deleteById(id);
+        } else {
+            throw new IllegalArgumentException("User details not found");
+        }
     }
 
-    @Override
-    public void deleteAllUser() {
-    userRepository.deleteAll();
-    }
 }
