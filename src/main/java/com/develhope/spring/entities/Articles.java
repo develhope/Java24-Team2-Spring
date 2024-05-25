@@ -22,9 +22,9 @@ public class Articles {
     @Column(nullable = false)
     private String title;
 
-    private List<String> tags;
+//    private List<String> tags;
 
-    @Column(nullable = false, length = 5000)
+    @Column(nullable = false, length = 5000 )
     private String text;
 
     @Column(nullable = false)
@@ -33,12 +33,17 @@ public class Articles {
     @Column(nullable = false)
     private Category category;
 
-    @Column(nullable = false,unique = true)
-    private String author;
 
-//    @OneToOne
+
+
+//    @ManyToOne(fetch =FetchType.LAZY)
+//    @JoinColumn(name="user_id")
 //    private User user;
 
+
+//    @OneToOne(fetch =FetchType.LAZY)
+//    @JoinColumn(name="articleValuationId")
+//    private ArticleValuation articleValuation;
 
 
 

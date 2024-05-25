@@ -11,7 +11,7 @@ import java.util.Date;
 @Table
 @AllArgsConstructor
 @NoArgsConstructor
-public class Article_details {
+public class ArticleValuation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,6 +19,14 @@ public class Article_details {
     private Date datePublication;
     @Column(nullable = false)
     private int rating;
+
+    public ArticleValuation(Long id, int rating) {
+    }
+
+
+//    @OneToOne(fetch =FetchType.LAZY)
+//    @JoinColumn(name="articles_id")
+//    private Articles articles;
 
 
 
