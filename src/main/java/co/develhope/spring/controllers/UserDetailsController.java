@@ -15,9 +15,14 @@ public class UserDetailsController {
     @Autowired
     UserDetailService userDetailService;
 
-    @GetMapping("{id}")
-    public ResponseEntity<UserDetails> getUserDetails(@PathVariable Long id) {
-        return new ResponseEntity<>(userDetailService.getUserDetailsById(id), HttpStatus.OK);
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getUserDetailsById(@PathVariable Long id) {
+        UserDetails userDetails = userDetailService.getUserDetailsById(id);
+        if (userDetails != null) {
+            return ResponseEntity.ok(userDetails);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User details not found");
+        }
     }
 
     @PostMapping
@@ -29,22 +34,18 @@ public class UserDetailsController {
         }
     }
 
-    @PutMapping
-    public ResponseEntity<?> updateUserDetails(@Valid @RequestBody UserDetails userDetails, Long id, BindingResult bindingResult) {
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateUserDetails(@Valid @RequestBody UserDetails userDetails, @PathVariable Long id,
+                                               BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
         }
-        UserDetails newUser = userDetailService.updateUserDetails(userDetails, id);
-        if (newUser != null) {
-            return ResponseEntity.ok(newUser);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
+        return ResponseEntity.ok(userDetailService.updateUserDetails(userDetails, id));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUserDetails(@PathVariable Long id) {
         userDetailService.deleteUserDetailsById(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("User deleted");
     }
 }
