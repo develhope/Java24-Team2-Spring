@@ -1,16 +1,16 @@
 package co.develhope.spring.services;
 
-import co.develhope.spring.entities.UserDetails;
-
+import co.develhope.spring.dtos.UserDetailsDto;
 
 public interface UserDetailService {
 
-    public UserDetails getUserDetailsById(Long id);
 
-    public UserDetails createUserDetails(UserDetails userDetails);
+    UserDetailsDto getUserDetailsById(Long id);
 
-    public UserDetails updateUserDetails(UserDetails userDetails, Long id);
+    UserDetailsDto createUserDetails(UserDetailsDto userDetailsDto);
 
-    public void deleteUserDetailsById(Long id);
+    UserDetailsDto updateUserDetails(UserDetailsDto userDetailsDto, Long id);
+
+    void deleteUserDetailsById(Long id);
 
 }

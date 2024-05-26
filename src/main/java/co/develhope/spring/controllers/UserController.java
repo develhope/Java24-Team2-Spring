@@ -19,6 +19,7 @@ public class UserController {
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
         try {
             UserDto userDto = userService.getUserById(id);
+            userDto.setPassword(null);
             return ResponseEntity.ok(userDto);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -32,6 +33,7 @@ public class UserController {
         }
         try {
             UserDto createdUser = userService.createUser(userDto);
+            createdUser.setPassword(null);
             return ResponseEntity.ok().body(createdUser);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -45,6 +47,7 @@ public class UserController {
         }
         try {
             UserDto updatedUser = userService.updateUser(userDto, id);
+            updatedUser.setPassword(null);
             return ResponseEntity.ok(updatedUser);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

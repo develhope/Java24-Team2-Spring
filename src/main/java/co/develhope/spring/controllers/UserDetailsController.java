@@ -1,6 +1,6 @@
 package co.develhope.spring.controllers;
 
-import co.develhope.spring.entities.UserDetails;
+import co.develhope.spring.dtos.UserDetailsDto;
 import co.develhope.spring.services.UserDetailService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,15 +11,14 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/user-details")
 public class UserDetailsController {
-
-
     @Autowired
     private UserDetailService userDetailService;
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserDetailsById(@PathVariable Long id) {
         try {
-            UserDetails userDetails = userDetailService.getUserDetailsById(id);
+            UserDetailsDto userDetails = userDetailService.getUserDetailsById(id);
+            userDetails.setAddress(null);
             return ResponseEntity.ok(userDetails);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -27,12 +26,13 @@ public class UserDetailsController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createUserDetails(@Valid @RequestBody UserDetails userDetails, BindingResult bindingResult) {
+    public ResponseEntity<?> createUserDetails(@Valid @RequestBody UserDetailsDto userDetailsDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
         }
         try {
-            UserDetails createdUserDetails = userDetailService.createUserDetails(userDetails);
+            UserDetailsDto createdUserDetails = userDetailService.createUserDetails(userDetailsDto);
+            createdUserDetails.setAddress(null);
             return ResponseEntity.ok(createdUserDetails);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -40,12 +40,13 @@ public class UserDetailsController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateUserDetails(@Valid @RequestBody UserDetails userDetails, BindingResult bindingResult, @PathVariable Long id) {
+    public ResponseEntity<?> updateUserDetails(@Valid @RequestBody UserDetailsDto userDetailsDto, BindingResult bindingResult, @PathVariable Long id) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
         }
         try {
-            UserDetails updatedUserDetails = userDetailService.updateUserDetails(userDetails, id);
+            UserDetailsDto updatedUserDetails = userDetailService.updateUserDetails(userDetailsDto, id);
+            updatedUserDetails.setAddress(null);
             return ResponseEntity.ok(updatedUserDetails);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
