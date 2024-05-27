@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public UserDto createUser(UserDto userDTO) {
         Optional<User> optionalUser = Optional.ofNullable(userRepository.findByUsername(userDTO.getUsername()));
-        if (optionalUser.isEmpty()) {
+        if (optionalUser.isPresent()) {
             throw new RuntimeException("User already exists");
         }
         User user = userMapper.toEntity(userDTO);
