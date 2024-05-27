@@ -18,14 +18,14 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserDto getUserById(Long id) {
-        User user = userRepository.findById(id).orElseThrow(()->new IllegalArgumentException("User not found"));
+        User user = userRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("User not found"));
         return userMapper.toDTO(user);
     }
 
     @Override
     public UserDto createUser(UserDto userDTO) {
-        Optional<User> existingUser = Optional.ofNullable(userRepository.findByUsername(userDTO.getUsername()));
-        if (existingUser.isPresent()) {
+        Optional<User> optionalUser = Optional.ofNullable(userRepository.findByUsername(userDTO.getUsername()));
+        if (optionalUser.isEmpty()) {
             throw new IllegalArgumentException("User already exists");
         }
         User user = userMapper.toEntity(userDTO);
