@@ -1,6 +1,7 @@
 package co.develhope.spring.dtos;
 
 import co.develhope.spring.enums.Gender;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -28,7 +29,13 @@ public class UserDetailsDto {
         private String address;
 
         @NotBlank
+        @JsonFormat(pattern = "dd-MM-yyyy")
         private LocalDate birthday;
+
+        @NotNull
+        @NotBlank
+        @JsonFormat(pattern ="dd-MM-yyyy")
+        private LocalDate signUpDate;
 
         @NotNull
         @Enumerated(EnumType.STRING)

@@ -6,6 +6,7 @@ import co.develhope.spring.entities.UserDetails;
 import co.develhope.spring.repositories.UserDetailsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 public class UserDetailServiceImpl implements UserDetailService {
@@ -28,6 +29,7 @@ public class UserDetailServiceImpl implements UserDetailService {
         if (userDetails.getId() != null) {
             throw new IllegalArgumentException("User details already exist");
         }
+        userDetails.setSignUpDate(LocalDate.now());
         UserDetails createdUserDetails = userDetailsRepository.saveAndFlush(userDetails);
         return userDetailsMapper.toDTO(createdUserDetails);
     }
