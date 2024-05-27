@@ -4,6 +4,7 @@ import co.develhope.spring.dtoconverters.UserMapper;
 import co.develhope.spring.dtos.UserDto;
 import co.develhope.spring.entities.User;
 import co.develhope.spring.repositories.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,7 @@ public class UserServiceImpl implements UserService{
     public UserDto createUser(UserDto userDTO) {
         Optional<User> optionalUser = Optional.ofNullable(userRepository.findByUsername(userDTO.getUsername()));
         if (optionalUser.isEmpty()) {
-            throw new IllegalArgumentException("User already exists");
+            throw new RuntimeException("User already exists");
         }
         User user = userMapper.toEntity(userDTO);
         User savedUser = userRepository.save(user);
@@ -36,7 +37,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public UserDto updateUser(UserDto userDto, Long id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
         user.setUsername(userDto.getUsername());
         user.setEmail(userDto.getEmail());
         User updatedUser = userRepository.saveAndFlush(user);
@@ -49,7 +50,7 @@ public class UserServiceImpl implements UserService{
         if (optionalUser.isPresent()) {
             userRepository.deleteById(id);
         } else {
-            throw new IllegalArgumentException("User details not found");
+            throw new EntityNotFoundException("User to delete not found");
         }
     }
 }

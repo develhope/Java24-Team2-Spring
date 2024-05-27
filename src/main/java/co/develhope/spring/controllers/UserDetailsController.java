@@ -2,6 +2,7 @@ package co.develhope.spring.controllers;
 
 import co.develhope.spring.dtos.UserDetailsDto;
 import co.develhope.spring.services.UserDetailService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,7 @@ public class UserDetailsController {
             UserDetailsDto createdUserDetails = userDetailService.createUserDetails(userDetailsDto);
             createdUserDetails.setAddress(null);
             return ResponseEntity.ok(createdUserDetails);
-        } catch (IllegalArgumentException e) {
+        } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
@@ -48,7 +49,7 @@ public class UserDetailsController {
             UserDetailsDto updatedUserDetails = userDetailService.updateUserDetails(userDetailsDto, id);
             updatedUserDetails.setAddress(null);
             return ResponseEntity.ok(updatedUserDetails);
-        } catch (IllegalArgumentException e) {
+        } catch (EntityNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
@@ -58,7 +59,7 @@ public class UserDetailsController {
         try {
             userDetailService.deleteUserDetailsById(id);
             return ResponseEntity.ok("User details deleted");
-        } catch (IllegalArgumentException e) {
+        } catch (EntityNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

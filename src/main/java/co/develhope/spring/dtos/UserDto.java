@@ -1,6 +1,7 @@
 package co.develhope.spring.dtos;
 
 import co.develhope.spring.entities.UserDetails;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -14,6 +15,7 @@ public class UserDto {
 
     @NotNull(message = "L'email non può essere nulla")
     @NotBlank(message = "L'email non può essere vuota")
+    @Email(message = "Inserisci un indirizzo e-mail valido")
     @Size(min = 6, max = 50)
     private String email;
 

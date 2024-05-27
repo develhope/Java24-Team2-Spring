@@ -4,6 +4,7 @@ import co.develhope.spring.dtoconverters.UserDetailsMapper;
 import co.develhope.spring.dtos.UserDetailsDto;
 import co.develhope.spring.entities.UserDetails;
 import co.develhope.spring.repositories.UserDetailsRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
@@ -19,7 +20,7 @@ public class UserDetailServiceImpl implements UserDetailService {
     @Override
     public UserDetailsDto getUserDetailsById(Long id) {
         UserDetails userDetails = userDetailsRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("UserDetails not found"));
+                .orElseThrow(() -> new EntityNotFoundException("UserDetails not found"));
         return userDetailsMapper.toDTO(userDetails);
     }
 
@@ -27,7 +28,7 @@ public class UserDetailServiceImpl implements UserDetailService {
     public UserDetailsDto createUserDetails(UserDetailsDto userDetailsDto) {
         UserDetails userDetails = userDetailsMapper.toEntity(userDetailsDto);
         if (userDetails.getId() != null) {
-            throw new IllegalArgumentException("User details already exist");
+            throw new RuntimeException("User details already exist");
         }
         userDetails.setSignUpDate(LocalDate.now());
         UserDetails createdUserDetails = userDetailsRepository.saveAndFlush(userDetails);
@@ -48,7 +49,7 @@ public class UserDetailServiceImpl implements UserDetailService {
             UserDetails updatedUserDetails = userDetailsRepository.saveAndFlush(newUserDetails);
             return userDetailsMapper.toDTO(updatedUserDetails);
         } else {
-            throw new IllegalArgumentException("User Details not found");
+            throw new EntityNotFoundException("User Details not found");
         }
     }
 
@@ -58,7 +59,7 @@ public class UserDetailServiceImpl implements UserDetailService {
         if (optionalUserDetails.isPresent()) {
             userDetailsRepository.deleteById(id);
         } else {
-            throw new IllegalArgumentException("User details not found");
+            throw new EntityNotFoundException("User details not found");
         }
     }
 }
