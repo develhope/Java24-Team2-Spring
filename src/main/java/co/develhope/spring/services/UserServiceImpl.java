@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserDto createUser(UserDto userDTO) {
-        Optional<User> existingUser = userRepository.findById(userDTO.getId());
+        Optional<User> existingUser = Optional.ofNullable(userRepository.findByUsername(userDTO.getUsername()));
         if (existingUser.isPresent()) {
             throw new IllegalArgumentException("User already exists");
         }
@@ -32,7 +32,6 @@ public class UserServiceImpl implements UserService{
         User savedUser = userRepository.save(user);
         return userMapper.toDTO(savedUser);
     }
-
 
     @Override
     public UserDto updateUser(UserDto userDto, Long id) {

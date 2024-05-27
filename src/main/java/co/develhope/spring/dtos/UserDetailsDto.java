@@ -14,26 +14,24 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class UserDetailsDto {
-        @NotBlank
-        @NotNull
+        @NotBlank(message = "Il nome non può essere vuoto")
         @Size(min= 2, max=50)
         private String firstName;
 
-        @NotBlank
-        @NotNull
+        @NotBlank(message = "Il cognome non può essere vuoto")
         @Size(min=2,max=50)
         private String lastName;
 
-        @NotBlank
+        @NotBlank(message = "L'indirizzo non può essere vuoto")
         @Size(min=5, max=100)
         private String address;
 
-        @NotBlank
+        @NotBlank(message = "Questo campo non può essere vuoto")
         @JsonFormat(pattern = "dd-MM-yyyy")
         private LocalDate birthday;
 
-        @NotNull
-        @NotBlank
+        @NotNull(message="Questo campo non può essere nullo")
+        @NotBlank(message = "Questo campo non può essere vuoto")
         @JsonFormat(pattern ="dd-MM-yyyy")
         private LocalDate signUpDate;
 

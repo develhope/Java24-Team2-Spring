@@ -49,7 +49,7 @@ public class UserController {
             UserDto updatedUser = userService.updateUser(userDto, id);
             updatedUser.setPassword(null);
             return ResponseEntity.ok(updatedUser);
-        } catch (RuntimeException e) {
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
