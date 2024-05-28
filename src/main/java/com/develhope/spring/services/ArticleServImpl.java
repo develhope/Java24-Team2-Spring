@@ -2,6 +2,8 @@ package com.develhope.spring.services;
 
 
 
+import com.develhope.spring.dtoconerters.ArticleMapper;
+import com.develhope.spring.dtos.ArticlesDTO;
 import com.develhope.spring.entities.Articles;
 import com.develhope.spring.repositories.ArticlesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +19,13 @@ import java.util.Optional;
 public class ArticleServImpl implements ArticlesService{
     @Autowired
     private ArticlesRepository articlesRepository;
+    @Autowired
+    private ArticleMapper articleMapper;
 
 
     public Articles createArticle(Articles articles){
-        articles.setPostingDate(new Date());
-
-        return articlesRepository.saveAndFlush(articles);
+            articles.setPostingDate(new Date());
+            return articlesRepository.saveAndFlush(articles);
     }
 
     public List<Articles> getAllArticle(){
@@ -30,27 +33,30 @@ public class ArticleServImpl implements ArticlesService{
     }
 
 
-    public Articles getArticleById(Long id) {
-        Optional<Articles> article = articlesRepository.findById(id);
-        return article.orElse(null);
+    public ArticlesDTO getArticleById(Long id) {
+        Articles articles = articlesRepository.findById(id).orElseThrow(()->new IllegalArgumentException("L'articolo non è presente"));
+        return articleMapper.toDTO(articles);
     }
 
-    public Articles upArticle(Articles articles, Long id) {
-        Optional <Articles> optionalArticles= articlesRepository.findById(id);
-        if(optionalArticles.isPresent()){
-            Articles presentArticle = optionalArticles.get();
-            presentArticle.setText(articles.getText());
-//            presentArticle.setTags(articles.getTags());
-            presentArticle.setTitle(articles.getTitle());
-            presentArticle.setCategory(articles.getCategory());
-            return articlesRepository.saveAndFlush(presentArticle);
-        }else{
-            return null;
-        }
+    public ArticlesDTO upArticle(ArticlesDTO articlesDTO, Long id) {
+        Articles articles = articlesRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("L'articolo non è presente"));
+        articles.setTitle(articlesDTO.getTitle());
+        articles.setText(articlesDTO.getText());
+        articles.setCategory(articlesDTO.getCategory());
+        articles.setPostingDate(articlesDTO.getPostingDate());
+
+        Articles updatedArticle = articlesRepository.saveAndFlush(articles);
+        return articleMapper.toDTO(updatedArticle);
     }
 
     public void deleteArticleById(Long id) {
-        articlesRepository.deleteById(id);
+            Optional<Articles> optionalArticles = articlesRepository.findById(id);
+            if (optionalArticles.isPresent()) {
+                articlesRepository.deleteById(id);
+            } else {
+                throw new IllegalArgumentException("Articolo non trovato");
+            }
     }
 
 
