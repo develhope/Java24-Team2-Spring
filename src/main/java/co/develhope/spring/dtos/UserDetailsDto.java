@@ -4,13 +4,11 @@ import co.develhope.spring.enums.Gender;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.Getter;
-import lombok.Setter;
-
+import lombok.Data;
 
 import java.time.LocalDate;
-@Getter
-@Setter
+
+@Data
 public class UserDetailsDto {
         @NotBlank(message = "Il nome non può essere vuoto")
         @Size(min= 2, max=50)
