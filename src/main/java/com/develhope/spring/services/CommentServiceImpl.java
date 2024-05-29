@@ -3,9 +3,13 @@ package com.develhope.spring.services;
 import com.develhope.spring.entities.Comment;
 import com.develhope.spring.repositories.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Date;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+@Service
 public class CommentServiceImpl implements CommentService{
 
     @Autowired
@@ -19,10 +23,7 @@ public class CommentServiceImpl implements CommentService{
 
     @Override
     public Comment createComment(Comment comment) {
-        Optional<Comment> optionalComment = commentRepository.findById(comment.getId());
-        if(optionalComment.isPresent()){
-            throw new IllegalArgumentException("Comment already exist");
-        }
+        comment.setDateTime(new Date());
         return commentRepository.saveAndFlush(comment);
     }
 

@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Table
 @Data
@@ -27,10 +27,8 @@ public class Comment {
     @Size(min = 1, max = 100)
     private String text;
 
-    @Column(name = "comment_datetime", nullable = false)
-    @NotNull
-    @NotBlank
-    private LocalDateTime dateTime;
+    @Column(name = "comment_datetime")
+    private Date dateTime;
 
 //    @OneToOne
 //    private User user;
@@ -40,6 +38,11 @@ public class Comment {
 //    private Article article;
     // decommentare quando viene creata la classe Article
 
+
+    public Comment(String text) {
+        this.text = text;
+        this.dateTime = new Date();
+    }
 
     public Long getId() {
         return id;
@@ -57,11 +60,11 @@ public class Comment {
         this.text = text;
     }
 
-    public LocalDateTime getDateTime() {
+    public Date getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
+    public void setDateTime(Date dateTime) {
         this.dateTime = dateTime;
     }
 }
