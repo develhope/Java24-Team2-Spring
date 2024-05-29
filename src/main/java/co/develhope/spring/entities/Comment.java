@@ -1,4 +1,4 @@
-package com.develhope.spring.entities;
+package co.develhope.spring.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

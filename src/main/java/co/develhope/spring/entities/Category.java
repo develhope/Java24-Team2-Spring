@@ -1,4 +1,4 @@
-package com.develhope.spring.entities;
+package co.develhope.spring.entities;
 
 public enum Category {
     NATURE,

@@ -1,4 +1,4 @@
-package com.develhope.spring.configurations;
+package co.develhope.spring.configurations;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

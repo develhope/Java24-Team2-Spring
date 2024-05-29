@@ -1,11 +1,11 @@
-package com.develhope.spring.services;
+package co.develhope.spring.services;
 
 
 
-import com.develhope.spring.dtoconerters.ArticleMapper;
-import com.develhope.spring.dtos.ArticlesDTO;
-import com.develhope.spring.entities.Articles;
-import com.develhope.spring.repositories.ArticlesRepository;
+import co.develhope.spring.dtoconerters.ArticleMapper;
+import co.develhope.spring.dtos.ArticlesDTO;
+import co.develhope.spring.entities.Articles;
+import co.develhope.spring.repositories.ArticlesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

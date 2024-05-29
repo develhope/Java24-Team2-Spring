@@ -1,11 +1,9 @@
-package com.develhope.spring.controllers;
+package co.develhope.spring.controllers;
 
-import com.develhope.spring.entities.ArticleValuation;
-import com.develhope.spring.entities.Articles;
-import com.develhope.spring.repositories.ArticleValuationRepo;
-import com.develhope.spring.services.ArticleValuationService;
+import co.develhope.spring.entities.ArticleValuation;
+import co.develhope.spring.repositories.ArticleValuationRepo;
+import co.develhope.spring.services.ArticleValuationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

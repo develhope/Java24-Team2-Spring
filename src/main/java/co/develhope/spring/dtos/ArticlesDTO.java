@@ -1,6 +1,6 @@
-package com.develhope.spring.dtos;
+package co.develhope.spring.dtos;
 
-import com.develhope.spring.entities.Category;
+import co.develhope.spring.entities.Category;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

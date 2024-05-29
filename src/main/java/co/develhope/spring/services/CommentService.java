@@ -1,6 +1,6 @@
-package com.develhope.spring.services;
+package co.develhope.spring.services;
 
-import com.develhope.spring.entities.Comment;
+import co.develhope.spring.entities.Comment;
 
 
 public interface CommentService {

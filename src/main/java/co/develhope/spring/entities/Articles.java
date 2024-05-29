@@ -1,4 +1,4 @@
-package com.develhope.spring.entities;
+package co.develhope.spring.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
-import java.util.List;
 
 @Table
 @Data

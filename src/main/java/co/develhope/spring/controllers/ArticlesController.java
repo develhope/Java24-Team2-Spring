@@ -1,18 +1,16 @@
-package com.develhope.spring.controllers;
+package co.develhope.spring.controllers;
 
-import com.develhope.spring.dtos.ArticlesDTO;
-import com.develhope.spring.entities.Articles;
-import com.develhope.spring.repositories.ArticlesRepository;
-import com.develhope.spring.services.ArticlesService;
+import co.develhope.spring.dtos.ArticlesDTO;
+import co.develhope.spring.entities.Articles;
+import co.develhope.spring.repositories.ArticlesRepository;
+import co.develhope.spring.services.ArticlesService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/articles")

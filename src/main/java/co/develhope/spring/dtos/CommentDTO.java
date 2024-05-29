@@ -1,4 +1,4 @@
-package com.develhope.spring.dtos;
+package co.develhope.spring.dtos;
 
 import java.time.LocalDateTime;
 

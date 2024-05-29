@@ -1,8 +1,7 @@
-package com.develhope.spring.services;
+package co.develhope.spring.services;
 
-import com.develhope.spring.entities.ArticleValuation;
-import com.develhope.spring.entities.Articles;
-import com.develhope.spring.repositories.ArticleValuationRepo;
+import co.develhope.spring.entities.ArticleValuation;
+import co.develhope.spring.repositories.ArticleValuationRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

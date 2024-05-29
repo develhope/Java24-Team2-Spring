@@ -1,6 +1,6 @@
-package com.develhope.spring.services;
+package co.develhope.spring.services;
 
-import com.develhope.spring.entities.Comment;
+import co.develhope.spring.entities.Comment;
 import com.develhope.spring.repositories.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

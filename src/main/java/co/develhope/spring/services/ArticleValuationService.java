@@ -1,6 +1,6 @@
-package com.develhope.spring.services;
+package co.develhope.spring.services;
 
-import com.develhope.spring.entities.ArticleValuation;
+import co.develhope.spring.entities.ArticleValuation;
 
 public interface ArticleValuationService {
     ArticleValuation createArticleValuation(ArticleValuation articles_details);

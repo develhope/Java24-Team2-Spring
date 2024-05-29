@@ -1,7 +1,7 @@
-package com.develhope.spring.services;
+package co.develhope.spring.services;
 
-import com.develhope.spring.dtos.ArticlesDTO;
-import com.develhope.spring.entities.Articles;
+import co.develhope.spring.dtos.ArticlesDTO;
+import co.develhope.spring.entities.Articles;
 
 import java.util.List;
 
