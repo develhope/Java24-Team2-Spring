@@ -47,7 +47,6 @@ public class UserDetailsController {
         }
         try {
             UserDetailsDto updatedUserDetails = userDetailService.updateUserDetails(userDetailsDto, id);
-            updatedUserDetails.setAddress(null);
             return ResponseEntity.ok(updatedUserDetails);
         } catch (EntityNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
