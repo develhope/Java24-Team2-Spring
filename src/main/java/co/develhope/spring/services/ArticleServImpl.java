@@ -2,7 +2,7 @@ package co.develhope.spring.services;
 
 
 
-import co.develhope.spring.dtoconerters.ArticleMapper;
+import co.develhope.spring.dtoconverters.ArticleMapper;
 import co.develhope.spring.dtos.ArticlesDTO;
 import co.develhope.spring.entities.Articles;
 import co.develhope.spring.repositories.ArticlesRepository;

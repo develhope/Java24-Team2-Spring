@@ -1,4 +1,4 @@
-package co.develhope.spring.dtoconerters;
+package co.develhope.spring.dtoconverters;
 
 import co.develhope.spring.dtos.ArticlesDTO;
 import co.develhope.spring.entities.Articles;
