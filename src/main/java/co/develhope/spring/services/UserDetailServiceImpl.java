@@ -21,7 +21,7 @@ public class UserDetailServiceImpl implements UserDetailService {
     @Override
     public UserDetailsDto getUserDetailsById(Long id) {
         UserDetails userDetails = userDetailsRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("UserDetails not found"));
+                .orElseThrow(() -> new EntityNotFoundException("User details not found"));
         return userDetailsMapper.toDTO(userDetails);
     }
 
@@ -50,7 +50,7 @@ public class UserDetailServiceImpl implements UserDetailService {
             UserDetails updatedUserDetails = userDetailsRepository.saveAndFlush(newUserDetails);
             return userDetailsMapper.toDTO(updatedUserDetails);
         } else {
-            throw new EntityNotFoundException("User Details not found");
+            throw new EntityNotFoundException("User details not found");
         }
     }
 

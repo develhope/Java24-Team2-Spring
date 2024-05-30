@@ -1,5 +1,6 @@
 package co.develhope.spring.services;
 
+import co.develhope.spring.dtoconverters.UserDetailsMapper;
 import co.develhope.spring.dtoconverters.UserMapper;
 import co.develhope.spring.dtos.UserDto;
 import co.develhope.spring.entities.User;
@@ -15,7 +16,7 @@ public class UserServiceImpl implements UserService{
     @Autowired
     UserRepository userRepository;
     @Autowired
-    private UserMapper userMapper;
+    UserMapper userMapper;
 
     @Override
     public UserDto getUserById(Long id) {
@@ -40,6 +41,9 @@ public class UserServiceImpl implements UserService{
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
         user.setUsername(userDto.getUsername());
         user.setEmail(userDto.getEmail());
+        if (userDto.getUserDetails() != null) {
+            user.setUserDetails(userDto.getUserDetails());
+        }
         User updatedUser = userRepository.saveAndFlush(user);
         return userMapper.toDTO(updatedUser);
     }
