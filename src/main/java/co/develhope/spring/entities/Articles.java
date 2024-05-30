@@ -1,5 +1,6 @@
 package co.develhope.spring.entities;
 
+import co.develhope.spring.enums.Category;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
