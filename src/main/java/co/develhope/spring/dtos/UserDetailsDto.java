@@ -10,6 +10,8 @@ import java.time.LocalDate;
 
 @Data
 public class UserDetailsDto {
+        private Long id;
+
         @NotBlank(message = "Il nome non può essere vuoto")
         @Size(min= 2, max=50)
         private String firstName;

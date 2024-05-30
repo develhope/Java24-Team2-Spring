@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserDto getUserById(Long id) {
-        User user = userRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("User not found"));
+        User user = userRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("User not found"));
         return userMapper.toDTO(user);
     }
 
@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService{
             throw new RuntimeException("User already exists");
         }
         User user = userMapper.toEntity(userDTO);
-        User savedUser = userRepository.save(user);
+        User savedUser = userRepository.saveAndFlush(user);
         return userMapper.toDTO(savedUser);
     }
 

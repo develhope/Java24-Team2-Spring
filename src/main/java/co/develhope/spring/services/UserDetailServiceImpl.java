@@ -6,10 +6,11 @@ import co.develhope.spring.entities.UserDetails;
 import co.develhope.spring.repositories.UserDetailsRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Optional;
-
+@Service
 public class UserDetailServiceImpl implements UserDetailService {
     @Autowired
     UserDetailsRepository userDetailsRepository;

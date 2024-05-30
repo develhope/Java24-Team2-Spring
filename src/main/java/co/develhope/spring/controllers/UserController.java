@@ -22,7 +22,7 @@ public class UserController {
             UserDto userDto = userService.getUserById(id);
             userDto.setPassword(null);
             return ResponseEntity.ok(userDto);
-        } catch (IllegalArgumentException e) {
+        } catch (EntityNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
