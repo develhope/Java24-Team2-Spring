@@ -2,56 +2,60 @@ package co.develhope.spring.services;
 
 import co.develhope.spring.dtoconverters.UserDetailsMapper;
 import co.develhope.spring.dtos.UserDetailsDto;
+import co.develhope.spring.entities.User;
 import co.develhope.spring.entities.UserDetails;
+import co.develhope.spring.exceptions.UserDetailsAlreadyExistException;
+import co.develhope.spring.exceptions.UserDetailsNotFoundException;
+import co.develhope.spring.exceptions.UserNotFoundException;
 import co.develhope.spring.repositories.UserDetailsRepository;
-import jakarta.persistence.EntityNotFoundException;
+import co.develhope.spring.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.Optional;
 @Service
 public class UserDetailServiceImpl implements UserDetailService {
     @Autowired
     UserDetailsRepository userDetailsRepository;
-
+    @Autowired
+    UserRepository userRepository;
     @Autowired
     UserDetailsMapper userDetailsMapper;
 
     @Override
-    public UserDetailsDto getUserDetailsById(Long id) {
-        UserDetails userDetails = userDetailsRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User details not found"));
+    public UserDetailsDto getUserDetailsByUserId(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+        UserDetails userDetails = user.getUserDetails();
+        if (userDetails == null) {
+            throw new UserDetailsNotFoundException("User details not found");
+        }
         return userDetailsMapper.toDTO(userDetails);
     }
 
     @Override
-    public UserDetailsDto createUserDetails(UserDetailsDto userDetailsDto) {
-        UserDetails userDetails = userDetailsMapper.toEntity(userDetailsDto);
-        if (userDetails.getId() != null) {
-            throw new RuntimeException("User details already exist");
+    public UserDetailsDto createUserDetails(UserDetailsDto userDetailsDto, Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+        if (user.getUserDetails() != null) {
+            throw new UserDetailsAlreadyExistException("User details already exist");
         }
-        userDetails.setSignUpDate(LocalDate.now());
-        UserDetails createdUserDetails = userDetailsRepository.saveAndFlush(userDetails);
-        return userDetailsMapper.toDTO(createdUserDetails);
+        UserDetails userDetails = userDetailsMapper.toEntity(userDetailsDto);
+        user.setUserDetails(userDetails);
+        userRepository.save(user);
+        return userDetailsMapper.toDTO(userDetails);
     }
 
     @Override
-    public UserDetailsDto updateUserDetails(UserDetailsDto userDetailsDto, Long id) {
-        UserDetails userDetails = userDetailsMapper.toEntity(userDetailsDto);
-        Optional<UserDetails> optionalUserDetails = userDetailsRepository.findById(id);
-        if (optionalUserDetails.isPresent()) {
-            UserDetails newUserDetails = optionalUserDetails.get();
-            newUserDetails.setFirstName(userDetails.getFirstName());
-            newUserDetails.setLastName(userDetails.getLastName());
-            newUserDetails.setGender(userDetails.getGender());
-            newUserDetails.setBirthday(userDetails.getBirthday());
-            newUserDetails.setAddress(userDetails.getAddress());
-            UserDetails updatedUserDetails = userDetailsRepository.saveAndFlush(newUserDetails);
-            return userDetailsMapper.toDTO(updatedUserDetails);
-        } else {
-            throw new EntityNotFoundException("User details not found");
+    public UserDetailsDto updateUserDetailsForUser(Long userId, UserDetailsDto userDetailsDto) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+        UserDetails userDetails = user.getUserDetails();
+        if (userDetails == null) {
+            throw new UserDetailsNotFoundException("User details not found");
         }
+        userDetailsRepository.save(userDetails);
+        return userDetailsMapper.toDTO(userDetails);
     }
 
     @Override
@@ -60,7 +64,7 @@ public class UserDetailServiceImpl implements UserDetailService {
         if (optionalUserDetails.isPresent()) {
             userDetailsRepository.deleteById(id);
         } else {
-            throw new EntityNotFoundException("User details not found");
+            throw new UserDetailsNotFoundException("User details not found");
         }
     }
 }

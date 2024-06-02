@@ -1,9 +1,10 @@
 package co.develhope.spring.services;
 
-import co.develhope.spring.dtoconverters.UserDetailsMapper;
 import co.develhope.spring.dtoconverters.UserMapper;
 import co.develhope.spring.dtos.UserDto;
 import co.develhope.spring.entities.User;
+import co.develhope.spring.exceptions.UserAlreadyExistsException;
+import co.develhope.spring.exceptions.UserNotFoundException;
 import co.develhope.spring.repositories.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +29,12 @@ public class UserServiceImpl implements UserService{
     public UserDto createUser(UserDto userDTO) {
         Optional<User> optionalUser = Optional.ofNullable(userRepository.findByUsername(userDTO.getUsername()));
         if (optionalUser.isPresent()) {
-            throw new RuntimeException("User already exists");
+            throw new UserAlreadyExistsException("User already exists");
         }
         User user = userMapper.toEntity(userDTO);
+        if (userDTO.getUserDetails() != null) {
+            user.setUserDetails(userDTO.getUserDetails());
+        }
         User savedUser = userRepository.saveAndFlush(user);
         return userMapper.toDTO(savedUser);
     }
@@ -38,7 +42,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public UserDto updateUser(UserDto userDto, Long id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
         user.setUsername(userDto.getUsername());
         user.setEmail(userDto.getEmail());
         if (userDto.getUserDetails() != null) {
@@ -54,7 +58,7 @@ public class UserServiceImpl implements UserService{
         if (optionalUser.isPresent()) {
             userRepository.deleteById(id);
         } else {
-            throw new EntityNotFoundException("User to delete not found");
+            throw new UserNotFoundException("User to delete not found");
         }
     }
 }
