@@ -1,9 +1,9 @@
 package co.develhope.spring.services;
 
-import co.develhope.spring.entities.Articles;
+import co.develhope.spring.entities.Article;
 import co.develhope.spring.entities.Comment;
 import co.develhope.spring.entities.User;
-import co.develhope.spring.repositories.ArticlesRepository;
+import co.develhope.spring.repositories.ArticleRepository;
 import co.develhope.spring.repositories.CommentRepository;
 import co.develhope.spring.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class CommentServiceImpl implements CommentService{
     UserRepository userRepository;
 
     @Autowired
-    ArticlesRepository articlesRepository;
+    ArticleRepository articleRepository;
 
     @Override
     public Comment getCommentById(Long id) {
@@ -36,7 +36,7 @@ public class CommentServiceImpl implements CommentService{
         User user = userRepository.findById(comment.getUser().getId())
                         .orElseThrow(() -> new RuntimeException("User not found"));
 
-        Articles article = articlesRepository.findById(comment.getArticle().getId())
+        Article article = articleRepository.findById(comment.getArticle().getId())
                         .orElseThrow(() -> new RuntimeException("Article not found"));
 
         comment.setUser(user);

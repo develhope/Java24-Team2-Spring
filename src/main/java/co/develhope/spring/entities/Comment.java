@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-@Table
+@Table(name = "comments")
 @Data
 @Entity
 @AllArgsConstructor
@@ -39,5 +39,5 @@ public class Comment {
     @OneToOne
     @JoinColumn(name = "article_id")
     @JsonBackReference
-    private Articles article;
+    private Article article;
 }

@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Size;
 
 import java.util.Date;
 
-public class ArticlesDTO {
+public class ArticleDTO {
 
 
 
@@ -33,10 +33,10 @@ public class ArticlesDTO {
     private Category category;
 
 
-    public ArticlesDTO() {
+    public ArticleDTO() {
     }
 
-    public ArticlesDTO(String txt, String title, Date postingDate, Category category, Long id) {
+    public ArticleDTO(String txt, String title, Date postingDate, Category category, Long id) {
     }
     public Long getId() {
         return id;

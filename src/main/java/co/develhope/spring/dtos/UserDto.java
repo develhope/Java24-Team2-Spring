@@ -1,11 +1,15 @@
 package co.develhope.spring.dtos;
 
+import co.develhope.spring.entities.Article;
+import co.develhope.spring.entities.Comment;
 import co.develhope.spring.entities.UserDetails;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class UserDto {
@@ -28,4 +32,8 @@ public class UserDto {
     private String password;
 
     private UserDetails userDetails;
+
+    private List<Comment> comments;
+
+    private List<Article> articles;
 }
