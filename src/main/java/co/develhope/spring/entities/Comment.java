@@ -1,5 +1,6 @@
 package co.develhope.spring.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -30,13 +31,15 @@ public class Comment {
     @Column(name = "comment_datetime")
     private Date dateTime;
 
-//    @OneToOne
-//    private User user;
-    // decommentare quando viene creata la classe User
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonBackReference
+    private User user;
 
-//    @OneToOne
-//    private Article article;
-    // decommentare quando viene creata la classe Article
+    @OneToOne
+    @JoinColumn(name = "article_id")
+    @JsonBackReference
+    private Articles article;
 
 
     public Comment(String text) {
@@ -66,5 +69,21 @@ public class Comment {
 
     public void setDateTime(Date dateTime) {
         this.dateTime = dateTime;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Articles getArticle() {
+        return article;
+    }
+
+    public void setArticle(Articles article) {
+        this.article = article;
     }
 }
