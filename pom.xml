@@ -6,7 +6,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.2.1</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
 	</parent>
 	<groupId>com.develhope</groupId>
 	<artifactId>spring</artifactId>
@@ -24,7 +24,7 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>6.2.7.Final</version> <!-- verifica la versione corretta -->
+			<version>6.2.7.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

@@ -1,8 +1,10 @@
 package co.develhope.spring.controllers;
 
 import co.develhope.spring.dtos.UserDetailsDto;
+import co.develhope.spring.exceptions.UserDetailsAlreadyExistException;
+import co.develhope.spring.exceptions.UserDetailsNotFoundException;
+import co.develhope.spring.exceptions.UserNotFoundException;
 import co.develhope.spring.services.UserDetailService;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +22,7 @@ public class UserDetailsController {
         try {
             UserDetailsDto userDetails = userDetailService.getUserDetailsByUserId(userId);
             return ResponseEntity.ok(userDetails);
-        } catch (EntityNotFoundException e) {
+        } catch (UserDetailsNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
@@ -33,7 +35,7 @@ public class UserDetailsController {
         try {
             UserDetailsDto createdUserDetails = userDetailService.createUserDetails(userDetailsDto,userId);
             return ResponseEntity.ok(createdUserDetails);
-        } catch (RuntimeException e) {
+        } catch (UserDetailsAlreadyExistException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
@@ -46,7 +48,7 @@ public class UserDetailsController {
         try {
             UserDetailsDto updatedUserDetails = userDetailService.updateUserDetailsForUser(id,userDetailsDto);
             return ResponseEntity.ok(updatedUserDetails);
-        } catch (EntityNotFoundException e) {
+        } catch (UserNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
@@ -56,7 +58,7 @@ public class UserDetailsController {
         try {
             userDetailService.deleteUserDetailsById(id);
             return ResponseEntity.ok("User details deleted");
-        } catch (EntityNotFoundException e) {
+        } catch (UserNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

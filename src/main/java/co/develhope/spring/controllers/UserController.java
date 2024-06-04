@@ -1,8 +1,9 @@
 package co.develhope.spring.controllers;
 
 import co.develhope.spring.dtos.UserDto;
+import co.develhope.spring.exceptions.UserAlreadyExistsException;
+import co.develhope.spring.exceptions.UserNotFoundException;
 import co.develhope.spring.services.UserService;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class UserController {
             UserDto userDto = userService.getUserById(id);
             userDto.setPassword(null);
             return ResponseEntity.ok(userDto);
-        } catch (EntityNotFoundException e) {
+        } catch (UserNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
@@ -36,7 +37,7 @@ public class UserController {
             UserDto createdUser = userService.createUser(userDto);
             createdUser.setPassword(null);
             return ResponseEntity.ok().body(createdUser);
-        } catch (RuntimeException e) {
+        } catch (UserAlreadyExistsException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
@@ -50,7 +51,7 @@ public class UserController {
             UserDto updatedUser = userService.updateUser(userDto, id);
             updatedUser.setPassword(null);
             return ResponseEntity.ok(updatedUser);
-        } catch (EntityNotFoundException e) {
+        } catch (UserNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
@@ -60,7 +61,7 @@ public class UserController {
         try {
             userService.deleteUserById(id);
             return ResponseEntity.ok("User deleted");
-        } catch (EntityNotFoundException e) {
+        } catch (UserNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
