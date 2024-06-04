@@ -36,7 +36,7 @@ public class Comment {
     @JsonBackReference
     private User user;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "article_id")
     @JsonBackReference
     private Articles article;
