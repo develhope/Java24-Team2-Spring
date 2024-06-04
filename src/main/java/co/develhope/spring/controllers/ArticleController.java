@@ -1,9 +1,9 @@
 package co.develhope.spring.controllers;
 
-import co.develhope.spring.dtos.ArticlesDTO;
-import co.develhope.spring.entities.Articles;
-import co.develhope.spring.repositories.ArticlesRepository;
-import co.develhope.spring.services.ArticlesService;
+import co.develhope.spring.dtos.ArticleDTO;
+import co.develhope.spring.entities.Article;
+import co.develhope.spring.repositories.ArticleRepository;
+import co.develhope.spring.services.ArticleService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,49 +14,47 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/articles")
-public class ArticlesController {
+public class ArticleController {
 
     @Autowired
-    private ArticlesService articlesService;
+    private ArticleService articleService;
     @Autowired
-    private ArticlesRepository articlesRepository;
-
+    private ArticleRepository articleRepository;
 
     @PostMapping
-    public ResponseEntity<?> createArticle (@Valid @RequestBody Articles articles, BindingResult bindingResult){
+    public ResponseEntity<?> createArticle (@Valid @RequestBody Article article, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            return ResponseEntity.badRequest().body((Articles) bindingResult.getAllErrors());
+            return ResponseEntity.badRequest().body((Article) bindingResult.getAllErrors());
         }
         try {
-            return ResponseEntity.ok().body(articlesService.createArticle(articles));
+            return ResponseEntity.ok().body(articleService.createArticle(article));
         } catch (IllegalArgumentException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<Articles>> getAllArticle(){
-        return ResponseEntity.ok().body(articlesService.getAllArticle());
+    public ResponseEntity<List<Article>> getAllArticle(){
+        return ResponseEntity.ok().body(articleService.getAllArticle());
     }
-
 
     @GetMapping("{id}")
     public ResponseEntity<?> getArticleById(@PathVariable Long id) {
             try {
-                ArticlesDTO articlesDTO = articlesService.getArticleById(id);
-                return ResponseEntity.ok(articlesDTO);
+                ArticleDTO articleDTO = articleService.getArticleById(id);
+                return ResponseEntity.ok(articleDTO);
             } catch (IllegalArgumentException e) {
                 return ResponseEntity.badRequest().body(e.getMessage());
             }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> upArticle(@Valid @RequestBody ArticlesDTO articlesDTO, BindingResult bindingResult, @PathVariable Long id) {
+    public ResponseEntity<?> upArticle(@Valid @RequestBody ArticleDTO articleDTO, BindingResult bindingResult, @PathVariable Long id) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
         }
         try {
-            ArticlesDTO updatedArticle = articlesService.upArticle(articlesDTO,id);
+            ArticleDTO updatedArticle = articleService.upArticle(articleDTO,id);
             return ResponseEntity.ok(updatedArticle);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -66,7 +64,7 @@ public class ArticlesController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteArticleById(@PathVariable Long id) {
         try {
-            articlesService.deleteArticleById(id);
+            articleService.deleteArticleById(id);
             return ResponseEntity.ok("Articolo eliminato");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -74,10 +72,9 @@ public class ArticlesController {
 
     }
 
-
     @DeleteMapping
     public ResponseEntity<Void> deleteAllArticles() {
-        articlesService.deleteAllArticles();
+        articleService.deleteAllArticles();
         return ResponseEntity.noContent().build();
     }
 

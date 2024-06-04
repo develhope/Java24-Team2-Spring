@@ -8,13 +8,12 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-@Table
+@Table(name="articles")
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-
-public class Articles {
+public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -24,7 +23,7 @@ public class Articles {
 
 //    private List<String> tags;
 
-    @Column(nullable = false, length = 5000 )
+    @Column(nullable = false, length = 5000)
     private String text;
 
     @Column(nullable = false)
@@ -34,18 +33,14 @@ public class Articles {
     private Category category;
 
 
-
-
-//    @ManyToOne(fetch =FetchType.LAZY)
-//    @JoinColumn(name="user_id")
-//    private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
 
 //    @OneToOne(fetch =FetchType.LAZY)
 //    @JoinColumn(name="articleValuationId")
 //    private ArticleValuation articleValuation;
-
-
 
 
 }

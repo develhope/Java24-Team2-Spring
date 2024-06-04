@@ -4,13 +4,11 @@ import co.develhope.spring.dtos.UserDetailsDto;
 
 public interface UserDetailService {
 
+    UserDetailsDto getUserDetailsByUserId(Long userId);
 
-    UserDetailsDto getUserDetailsById(Long id);
+    UserDetailsDto createUserDetails(UserDetailsDto userDetailsDto, Long userId);
 
-    UserDetailsDto createUserDetails(UserDetailsDto userDetailsDto);
-
-    UserDetailsDto updateUserDetails(UserDetailsDto userDetailsDto, Long id);
+    UserDetailsDto updateUserDetailsForUser(Long userId, UserDetailsDto userDetailsDto);
 
     void deleteUserDetailsById(Long id);
-
 }

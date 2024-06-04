@@ -1,7 +1,7 @@
 package co.develhope.spring.dtoconverters;
 
-import co.develhope.spring.dtos.ArticlesDTO;
-import co.develhope.spring.entities.Articles;
+import co.develhope.spring.dtos.ArticleDTO;
+import co.develhope.spring.entities.Article;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,12 +11,12 @@ public class ArticleMapper {
     @Autowired
     private ModelMapper modelMapper;
 
-    public ArticlesDTO toDTO(Articles articles) {
-        return modelMapper.map(articles, ArticlesDTO.class);
+    public ArticleDTO toDTO(Article article) {
+        return modelMapper.map(article, ArticleDTO.class);
     }
 
 
-    public Articles toEntity(ArticlesDTO articlesDTO) {
-        return modelMapper.map(articlesDTO, Articles.class);
+    public Article toEntity(ArticleDTO articleDTO) {
+        return modelMapper.map(articleDTO, Article.class);
     }
 }

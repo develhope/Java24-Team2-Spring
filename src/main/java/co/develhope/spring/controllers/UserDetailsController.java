@@ -16,24 +16,22 @@ public class UserDetailsController {
     private UserDetailService userDetailService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getUserDetailsById(@PathVariable Long id) {
+    public ResponseEntity<?> getUserDetailsByUserId(@PathVariable Long userId) {
         try {
-            UserDetailsDto userDetails = userDetailService.getUserDetailsById(id);
-            userDetails.setAddress(null);
+            UserDetailsDto userDetails = userDetailService.getUserDetailsByUserId(userId);
             return ResponseEntity.ok(userDetails);
-        } catch (IllegalArgumentException e) {
+        } catch (EntityNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    @PostMapping
-    public ResponseEntity<?> createUserDetails(@Valid @RequestBody UserDetailsDto userDetailsDto, BindingResult bindingResult) {
+    @PostMapping("/{id}")
+    public ResponseEntity<?> createUserDetails(@PathVariable Long userId, @Valid @RequestBody UserDetailsDto userDetailsDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
         }
         try {
-            UserDetailsDto createdUserDetails = userDetailService.createUserDetails(userDetailsDto);
-            createdUserDetails.setAddress(null);
+            UserDetailsDto createdUserDetails = userDetailService.createUserDetails(userDetailsDto,userId);
             return ResponseEntity.ok(createdUserDetails);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -46,7 +44,7 @@ public class UserDetailsController {
             return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
         }
         try {
-            UserDetailsDto updatedUserDetails = userDetailService.updateUserDetails(userDetailsDto, id);
+            UserDetailsDto updatedUserDetails = userDetailService.updateUserDetailsForUser(id,userDetailsDto);
             return ResponseEntity.ok(updatedUserDetails);
         } catch (EntityNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
