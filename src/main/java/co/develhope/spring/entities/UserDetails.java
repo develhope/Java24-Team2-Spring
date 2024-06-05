@@ -29,9 +29,6 @@ public class UserDetails {
     @Column
     private LocalDate birthday;
 
-    @Column(nullable = false)
-    private LocalDate signUpDate;
-
     @Column
     @Enumerated(EnumType.STRING)
     private Gender gender;

@@ -29,8 +29,6 @@ public class UserDetailsDto {
         @Past(message = "Non puoi essere nato nel futuro!")
         private LocalDate birthday;
 
-        @JsonFormat(pattern ="dd-MM-yyyy")
-        private LocalDate signUpDate;
 
         @NotNull
         @Enumerated(EnumType.STRING)

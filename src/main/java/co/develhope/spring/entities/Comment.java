@@ -33,11 +33,10 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonBackReference
+    @JsonBackReference(value = "commentsReference")
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "article_id")
-    @JsonBackReference
     private Article article;
 }
