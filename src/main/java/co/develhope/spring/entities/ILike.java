@@ -25,5 +25,6 @@ public class ILike {
     @ManyToOne
     @JoinColumn(name = "CommentId")
     private Comment comment;
+
     private LocalDateTime dateTime;
 }

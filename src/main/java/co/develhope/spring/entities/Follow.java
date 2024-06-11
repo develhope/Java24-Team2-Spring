@@ -21,7 +21,6 @@ public class Follow {
 
     @ManyToOne
     @JoinColumn(name = "idUtenteFollower", nullable = false)
-    @JsonManagedReference
     private User follower;
 
     @Column(nullable = false)
