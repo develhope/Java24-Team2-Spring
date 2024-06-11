@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 
 @NoArgsConstructor
@@ -15,21 +16,21 @@ import java.time.LocalDate;
 public class UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private UUID id;
 
-    @Column(nullable = false)
+    @Column(name= "first_name",nullable = false)
     private String firstName;
 
-    @Column(nullable = false)
+    @Column(name= "last_name",nullable = false)
     private String lastName;
 
-    @Column
+    @Column(name="address")
     private String address;
 
-    @Column
+    @Column(name="birthday")
     private LocalDate birthday;
 
-    @Column
+    @Column(name="gender")
     @Enumerated(EnumType.STRING)
     private Gender gender;
 }

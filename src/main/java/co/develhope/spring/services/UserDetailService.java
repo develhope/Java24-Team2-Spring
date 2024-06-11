@@ -2,13 +2,15 @@ package co.develhope.spring.services;
 
 import co.develhope.spring.dtos.UserDetailsDto;
 
+import java.util.UUID;
+
 public interface UserDetailService {
 
-    UserDetailsDto getUserDetailsByUserId(Long userId);
+    UserDetailsDto getUserDetailsByUserId(UUID userId);
 
-    UserDetailsDto createUserDetails(UserDetailsDto userDetailsDto, Long userId);
+    UserDetailsDto createUserDetails(UserDetailsDto userDetailsDto, UUID userId);
 
-    UserDetailsDto updateUserDetailsForUser(Long userId, UserDetailsDto userDetailsDto);
+    UserDetailsDto updateUserDetailsForUser(UUID userId, UserDetailsDto userDetailsDto);
 
-    void deleteUserDetailsById(Long id);
+    void deleteUserDetailsById(UUID id);
 }

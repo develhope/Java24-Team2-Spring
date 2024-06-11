@@ -15,9 +15,6 @@ public class ArticleValuationController {
     @Autowired
     private ArticleValuationRepo articleValuationRepo;
 
-
-
-
     @PostMapping
     public ResponseEntity<String> createArticleValuation(@RequestBody ArticleValuation articleValuation) {
         if (articleValuation.getRating() < 1 || articleValuation.getRating() > 5) {

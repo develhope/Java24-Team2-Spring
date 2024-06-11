@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
+
 @Service
 public class UserDetailServiceImpl implements UserDetailService {
     @Autowired
@@ -23,7 +25,7 @@ public class UserDetailServiceImpl implements UserDetailService {
     UserDetailsMapper userDetailsMapper;
 
     @Override
-    public UserDetailsDto getUserDetailsByUserId(Long userId) {
+    public UserDetailsDto getUserDetailsByUserId(UUID userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
         UserDetails userDetails = user.getUserDetails();
@@ -34,7 +36,7 @@ public class UserDetailServiceImpl implements UserDetailService {
     }
 
     @Override
-    public UserDetailsDto createUserDetails(UserDetailsDto userDetailsDto, Long userId) {
+    public UserDetailsDto createUserDetails(UserDetailsDto userDetailsDto, UUID userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
         if (user.getUserDetails() != null) {
@@ -47,7 +49,7 @@ public class UserDetailServiceImpl implements UserDetailService {
     }
 
     @Override
-    public UserDetailsDto updateUserDetailsForUser(Long userId, UserDetailsDto userDetailsDto) {
+    public UserDetailsDto updateUserDetailsForUser(UUID userId, UserDetailsDto userDetailsDto) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
         UserDetails userDetails = user.getUserDetails();
@@ -59,7 +61,7 @@ public class UserDetailServiceImpl implements UserDetailService {
     }
 
     @Override
-    public void deleteUserDetailsById(Long id) {
+    public void deleteUserDetailsById(UUID id) {
         Optional<UserDetails> optionalUserDetails = userDetailsRepository.findById(id);
         if (optionalUserDetails.isPresent()) {
             userDetailsRepository.deleteById(id);

@@ -6,11 +6,11 @@ import co.develhope.spring.entities.User;
 import co.develhope.spring.exceptions.UserAlreadyExistsException;
 import co.develhope.spring.exceptions.UserNotFoundException;
 import co.develhope.spring.repositories.UserRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService{
     UserMapper userMapper;
 
     @Override
-    public UserDto getUserById(Long id) {
+    public UserDto getUserById(UUID id) {
         User user = userRepository.findById(id).orElseThrow(()-> new UserNotFoundException("User not found"));
         return userMapper.toDTO(user);
     }
@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserDto updateUser(UserDto userDto, Long id) {
+    public UserDto updateUser(UserDto userDto, UUID id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
         user.setUsername(userDto.getUsername());
@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void deleteUserById(Long id) {
+    public void deleteUserById(UUID id) {
         Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isPresent()) {
             userRepository.deleteById(id);

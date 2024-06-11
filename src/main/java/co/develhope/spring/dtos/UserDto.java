@@ -4,6 +4,8 @@ import co.develhope.spring.entities.Article;
 import co.develhope.spring.entities.Comment;
 import co.develhope.spring.entities.UserDetails;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -12,10 +14,11 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 public class UserDto {
-    private Long id;
+    private UUID id;
 
     @NotNull(message = "L'email non può essere nulla")
     @NotBlank(message = "L'email non può essere vuota")
@@ -31,6 +34,7 @@ public class UserDto {
     @NotNull(message = "La password non può essere nulla")
     @NotBlank(message = "La password non può essere vuota")
     @Size(min = 8, max = 100)
+    @JsonIgnore
     private String password;
 
     @JsonFormat(pattern ="dd-MM-yyyy")
@@ -38,6 +42,7 @@ public class UserDto {
 
     private UserDetails userDetails;
 
+    @JsonManagedReference(value = "commentsReference")
     private List<Comment> comments;
 
     private List<Article> articles;

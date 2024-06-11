@@ -7,10 +7,11 @@ import jakarta.validation.constraints.*;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Data
 public class UserDetailsDto {
-        private Long id;
+        private UUID id;
 
         @NotBlank(message = "Il nome non può essere vuoto")
         @Size(min= 2, max=50)
@@ -29,8 +30,7 @@ public class UserDetailsDto {
         @Past(message = "Non puoi essere nato nel futuro!")
         private LocalDate birthday;
 
-
-        @NotNull
+        @NotBlank(message = "Questo campo non può essere vuoto")
         @Enumerated(EnumType.STRING)
         private Gender gender;
     }
