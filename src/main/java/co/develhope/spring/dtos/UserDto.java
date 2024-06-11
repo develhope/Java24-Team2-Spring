@@ -4,6 +4,7 @@ import co.develhope.spring.entities.Article;
 import co.develhope.spring.entities.Comment;
 import co.develhope.spring.entities.UserDetails;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

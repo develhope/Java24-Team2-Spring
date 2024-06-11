@@ -1,5 +1,6 @@
 package co.develhope.spring.entities;
 
+import co.develhope.spring.dtos.UserDto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -31,12 +32,17 @@ public class Comment {
     @Column(name = "comment_datetime")
     private Date dateTime;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-//    @JsonBackReference(value = "commentsReference")
+    @JsonBackReference(value = "user-comment")
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "article_id")
     private Article article;
+
+    public String getUserName(){
+        return this.user.getUsername();
+    }
+    // recupera id utente per mostrarlo nella get dei comment
 }
