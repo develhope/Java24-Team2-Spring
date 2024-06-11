@@ -1,7 +1,7 @@
-package com.develhope.spring.controllers;
+package co.develhope.spring.controllers;
 
-import com.develhope.spring.entities.Follow;
-import com.develhope.spring.services.FollowService;
+import co.develhope.spring.entities.Follow;
+import co.develhope.spring.services.FollowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,10 +27,5 @@ public class FollowController {
     @GetMapping("/following/{userId}")
     public List<Follow> getFollowing(@PathVariable Long userId) throws Throwable {
         return followService.getFollowing(userId);
-    }
-
-    @GetMapping("/followers/{userId}")
-    public List<Follow> getFollowers(@PathVariable Long userId) throws Throwable {
-        return followService.getFollowers(userId);
     }
 }

@@ -1,5 +1,6 @@
 package co.develhope.spring.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -39,6 +40,10 @@ public class User {
     private List<Article> articles;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    @JsonManagedReference(value = "commentsReference")
+//    @JsonManagedReference(value = "commentsReference")
     private List<Comment> comments;
+
+    @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL)
+    @JsonBackReference
+    private List<Follow> followed;
 }
