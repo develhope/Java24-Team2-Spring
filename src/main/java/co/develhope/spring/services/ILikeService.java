@@ -1,11 +1,11 @@
-package com.develhope.spring.services;
+package co.develhope.spring.services;
 
-import com.develhope.spring.entities.Comment;
-import com.develhope.spring.entities.ILike;
-import com.develhope.spring.entities.User;
-import com.develhope.spring.repositories.CommentRepository;
-import com.develhope.spring.repositories.ILikeRepository;
-import com.develhope.spring.repositories.UserRepository;
+import co.develhope.spring.entities.ILike;
+import co.develhope.spring.repositories.ILikeRepository;
+import co.develhope.spring.entities.Comment;
+import co.develhope.spring.entities.User;
+import co.develhope.spring.repositories.CommentRepository;
+import co.develhope.spring.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
@@ -28,8 +28,8 @@ public class ILikeService {
 
         ILike iLike = new ILike();
         iLike.setUser(user);
-        ILike.setComment(comment);
-        ILike.setDateTime(LocalDateTime.now());
+        iLike.setComment(comment);
+        iLike.setDateTime(LocalDateTime.now());
 
         return iLikeRepository.save(iLike);
     }

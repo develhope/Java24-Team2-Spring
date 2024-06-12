@@ -1,7 +1,7 @@
-package com.develhope.spring.controllers;
+package co.develhope.spring.controllers;
 
-import com.develhope.spring.entities.ILike;
-import com.develhope.spring.services.ILikeService;
+import co.develhope.spring.entities.ILike;
+import co.develhope.spring.services.ILikeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
