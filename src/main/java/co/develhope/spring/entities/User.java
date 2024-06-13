@@ -37,7 +37,7 @@ public class User {
     private UserDetails userDetails;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    @JsonBackReference(value = "user-article")
+    @JsonManagedReference(value = "user-article")
     private List<Article> articles;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

@@ -2,6 +2,7 @@ package co.develhope.spring.entities;
 
 import co.develhope.spring.dtos.UserDto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -39,6 +40,7 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "article_id")
+    @JsonBackReference(value = "article-comment")
     private Article article;
 
     public String getUserName(){

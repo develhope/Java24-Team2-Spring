@@ -37,7 +37,7 @@ public class Article {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    @JsonManagedReference(value = "user-article")
+    @JsonBackReference(value = "user-article")
     private User user;
 
 
@@ -47,6 +47,7 @@ public class Article {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "article_valuation")
+    @JsonManagedReference(value = "article-articleValuation")
     private ArticleValuation articleValuation;
 
 
