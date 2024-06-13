@@ -26,7 +26,7 @@ public class ArticleValuation {
 
 //    @OneToOne(fetch =FetchType.LAZY)
 //    @JoinColumn(name="articles_id")
-//    private Articles articles;
+//    private Article articles;
 
 
 
