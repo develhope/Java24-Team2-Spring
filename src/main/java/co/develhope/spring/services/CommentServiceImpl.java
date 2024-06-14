@@ -36,11 +36,11 @@ public class CommentServiceImpl implements CommentService{
         User user = userRepository.findById(comment.getUser().getId())
                         .orElseThrow(() -> new RuntimeException("User not found"));
 
-       // Article article = articleRepository.findById(comment.getArticle().getId())
-              //          .orElseThrow(() -> new RuntimeException("Article not found"));
+        Article article = articleRepository.findById(comment.getArticle().getId())
+                        .orElseThrow(() -> new RuntimeException("Article not found"));
 
         comment.setUser(user);
-      //  comment.setArticle(article);
+        comment.setArticle(article);
         comment.setDateTime(new Date());
 
         return commentRepository.saveAndFlush(comment);

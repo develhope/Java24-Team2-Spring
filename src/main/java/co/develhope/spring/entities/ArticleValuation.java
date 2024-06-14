@@ -1,5 +1,6 @@
 package co.develhope.spring.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,10 +25,9 @@ public class ArticleValuation {
     }
 
 
-//    @OneToOne(fetch =FetchType.LAZY)
-//    @JoinColumn(name="articles_id")
-//    private Articles articles;
-
-
+    @OneToOne(fetch =FetchType.LAZY)
+    @JoinColumn(name="articles_id")
+    @JsonBackReference(value = "article-articleValuation")
+    private Article articles;
 
 }
