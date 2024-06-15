@@ -15,13 +15,13 @@ public class FollowController {
     private FollowService followService;
 
     @PostMapping("/follow")
-    public Follow followUser(@RequestParam Long followerId, @RequestParam Long followedId) throws Throwable {
-        return followService.followUser(followerId, followedId);
+    public Follow followUser(@RequestParam Long followerId, @RequestParam Long userId) throws Throwable {
+        return followService.followUser(followerId, userId);
     }
 
     @DeleteMapping("/unfollow")
-    public void unfollowUser(@RequestParam Long followerId, @RequestParam Long followedId) throws Throwable {
-        followService.unfollowUser(followerId, followedId);
+    public void unfollowUser(@RequestParam Long followerId, @RequestParam Long userId) throws Throwable {
+        followService.unfollowUser(followerId, userId);
     }
 
     @GetMapping("/following/{userId}")
@@ -29,3 +29,5 @@ public class FollowController {
         return followService.getFollowing(userId);
     }
 }
+
+// Aggiornati i parametri degli endpoint per utilizzare userId invece di followedId.

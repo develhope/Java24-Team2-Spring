@@ -20,8 +20,12 @@ public class Follow {
     private Long idFollow;
 
     @ManyToOne
-    @JoinColumn(name = "idUtenteFollower", nullable = false)
-    private User follower;
+    @JoinColumn(name = "followerId", nullable = false)
+    private User follower; // Tieni i follower come già erano prima.
+
+    @ManyToOne
+    @JoinColumn(name = "userId", nullable = false)
+    private User user; // Sostituire 'followed' con 'user'
 
     @Column(nullable = false)
     private LocalDateTime dataOra;
