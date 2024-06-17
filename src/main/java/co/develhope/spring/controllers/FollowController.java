@@ -5,20 +5,21 @@ import co.develhope.spring.dtos.UserDto;
 import co.develhope.spring.entities.Follow;
 import co.develhope.spring.services.FollowService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("follow")
+@RequestMapping("/follow")
 public class FollowController {
 
     @Autowired
     private FollowService followService;
 
     @PostMapping
-    public FollowDto followUser(@RequestBody FollowDto followDto, @RequestBody UserDto userDto) throws Throwable {
-        return followService.followUser(followDto, userDto);
+    public ResponseEntity<?> followUser(@RequestBody FollowDto followDto) throws Throwable {
+        return ResponseEntity.ok(followService.followUser(followDto));
     }
 
     @DeleteMapping("/unfollow")

@@ -26,10 +26,11 @@ public class FollowService {
     @Autowired
     private FollowMapper followMapper;
 
-    public FollowDto followUser(FollowDto followDto, UserDto userDto) throws Throwable {
+    public FollowDto followUser(FollowDto followDto) throws Throwable {
 
-        User follower = userRepository.findById(followDto.getIdFollow()).orElseThrow(() -> new IllegalArgumentException("Follower not found"));
-        User user = userRepository.findById(userDto.getId()).orElseThrow(() -> new UserNotFoundException("User user not found"));
+        User follower = userRepository.findById(followDto.getFollower().getId()).orElseThrow(() -> new IllegalArgumentException("Follower not found"));
+        Follow followed = followMapper.toEntity(followDto);
+        User user= userRepository.findById(followed.getUser().getId()).orElseThrow(() -> new UserNotFoundException("User not found"));
 
         if (followRepository.existsByFollowerIdAndUserId(follower.getId(), user.getId())) {
             throw new IllegalArgumentException("Already following this user");
