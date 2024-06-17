@@ -1,5 +1,8 @@
 package co.develhope.spring.services;
 
+import co.develhope.spring.dtoconverters.FollowMapper;
+import co.develhope.spring.dtos.FollowDto;
+import co.develhope.spring.dtos.UserDto;
 import co.develhope.spring.entities.Follow;
 import co.develhope.spring.entities.User;
 import co.develhope.spring.exceptions.UserNotFoundException;
@@ -20,20 +23,26 @@ public class FollowService {
     @Autowired
     private UserRepository userRepository;
 
-    public Follow followUser(Long followerId, Long userId) throws Throwable {
-        User follower = userRepository.findById(followerId).orElseThrow(() -> new IllegalArgumentException("Follower not found"));
-        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("Followed user not found"));
+    @Autowired
+    private FollowMapper followMapper;
 
-        if (followRepository.existsByFollowerIdAndUserId(followerId, userId)) {
+    public FollowDto followUser(FollowDto followDto, UserDto userDto) throws Throwable {
+
+        User follower = userRepository.findById(followDto.getIdFollow()).orElseThrow(() -> new IllegalArgumentException("Follower not found"));
+        User user = userRepository.findById(userDto.getId()).orElseThrow(() -> new UserNotFoundException("User user not found"));
+
+        if (followRepository.existsByFollowerIdAndUserId(follower.getId(), user.getId())) {
             throw new IllegalArgumentException("Already following this user");
         }
+
 
         Follow follow = new Follow();
         follow.setFollower(follower);
         follow.setUser(user);
         follow.setDataOra(LocalDateTime.now());
 
-        return followRepository.save(follow);
+        followRepository.save(follow);
+        return followMapper.toDTO(follow);
     }
 
     public void unfollowUser(Long followerId, Long userId) throws Throwable {
