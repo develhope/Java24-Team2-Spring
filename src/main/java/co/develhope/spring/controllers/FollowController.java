@@ -11,20 +11,20 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/follow")
 public class FollowController {
 
     @Autowired
     private FollowService followService;
 
-    @PostMapping
+    @PostMapping("/follow")
     public ResponseEntity<?> followUser(@RequestBody FollowDto followDto) throws Throwable {
         return ResponseEntity.ok(followService.followUser(followDto));
     }
 
-    @DeleteMapping("/unfollow")
-    public void unfollowUser(@RequestParam Long followerId, @RequestParam Long userId) throws Throwable {
-        followService.unfollowUser(followerId, userId);
+    @DeleteMapping("/unfollow/{id}")
+    public ResponseEntity<String> unfollowUser(@PathVariable Long id) throws Throwable {
+        followService.unfollowUser(id);
+        return ResponseEntity.ok("User unfollowed");
     }
 
     @GetMapping("/following/{userId}")
@@ -32,5 +32,3 @@ public class FollowController {
         return followService.getFollowing(userId);
     }
 }
-
-// Aggiornati i parametri degli endpoint per utilizzare userId invece di followedId.

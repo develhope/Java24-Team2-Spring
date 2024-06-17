@@ -35,8 +35,6 @@ public class FollowService {
         if (followRepository.existsByFollowerIdAndUserId(follower.getId(), user.getId())) {
             throw new IllegalArgumentException("Already following this user");
         }
-
-
         Follow follow = new Follow();
         follow.setFollower(follower);
         follow.setUser(user);
@@ -46,16 +44,9 @@ public class FollowService {
         return followMapper.toDTO(follow);
     }
 
-    public void unfollowUser(Long followerId, Long userId) throws Throwable {
-        User follower = userRepository.findById(followerId).orElseThrow(() -> new IllegalArgumentException("Follower not found"));
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Followed user not found"));
+    public void unfollowUser(Long id) throws Throwable {
+        followRepository.deleteById(id);
 
-        Follow follow = followRepository.findByFollowerAndUser(follower, user);
-        if (follow != null) {
-            followRepository.delete(follow);
-        } else {
-            throw new IllegalArgumentException("Not following this user");
-        }
     }
 
     public List<Follow> getFollowing(Long userId) throws Throwable {
