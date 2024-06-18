@@ -24,12 +24,11 @@ public class UserDetailsDto {
         @Size(min=5, max=100)
         private String address;
 
-        @NotBlank(message = "Questo campo non può essere vuoto")
         @JsonFormat(pattern = "dd-MM-yyyy")
         @Past(message = "Non puoi essere nato nel futuro!")
         private LocalDate birthday;
 
-        @NotBlank(message = "Questo campo non può essere vuoto")
+        @NotNull
         @Enumerated(EnumType.STRING)
         private Gender gender;
     }

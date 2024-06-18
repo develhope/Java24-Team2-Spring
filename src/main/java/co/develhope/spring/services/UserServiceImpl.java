@@ -9,6 +9,7 @@ import co.develhope.spring.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -35,6 +36,7 @@ public class UserServiceImpl implements UserService{
         if (userDTO.getUserDetails() != null) {
             user.setUserDetails(userDTO.getUserDetails());
         }
+        user.setSignUpDate(LocalDate.now());
         User savedUser = userRepository.saveAndFlush(user);
         return userMapper.toDTO(savedUser);
     }

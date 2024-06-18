@@ -28,7 +28,7 @@ public class UserDetailsController {
         }
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("/{userId}")
     public ResponseEntity<?> createUserDetails(@PathVariable Long userId, @Valid @RequestBody UserDetailsDto userDetailsDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
