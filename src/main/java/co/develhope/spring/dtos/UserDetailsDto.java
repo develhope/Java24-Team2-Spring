@@ -7,11 +7,10 @@ import jakarta.validation.constraints.*;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Data
 public class UserDetailsDto {
-        private UUID id;
+        private Long id;
 
         @NotBlank(message = "Il nome non può essere vuoto")
         @Size(min= 2, max=50)

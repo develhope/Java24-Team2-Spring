@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface UserDetailsRepository extends JpaRepository<UserDetails, UUID> {
+public interface UserDetailsRepository extends JpaRepository<UserDetails,Long> {
     @Query(value = "SELECT AVG(YEAR(CURDATE()-YEAR(birthday)) AS average_age FROM user", nativeQuery = true)
     short averageAge();
 

@@ -8,11 +8,11 @@ import java.util.UUID;
 
 public interface UserService {
 
-    UserDto getUserById(UUID id);
+    UserDto getUserById(Long id);
 
     UserDto createUser(UserDto userDTO);
 
-    UserDto updateUser (UserDto userDto, UUID id);
+    UserDto updateUser (UserDto userDto, Long id);
 
-    void deleteUserById(UUID id);
+    void deleteUserById(Long id);
 }

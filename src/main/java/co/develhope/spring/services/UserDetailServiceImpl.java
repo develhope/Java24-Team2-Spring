@@ -25,7 +25,7 @@ public class UserDetailServiceImpl implements UserDetailService {
     UserDetailsMapper userDetailsMapper;
 
     @Override
-    public UserDetailsDto getUserDetailsByUserId(UUID userId) {
+    public UserDetailsDto getUserDetailsByUserId(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
         UserDetails userDetails = user.getUserDetails();
@@ -36,7 +36,7 @@ public class UserDetailServiceImpl implements UserDetailService {
     }
 
     @Override
-    public UserDetailsDto createUserDetails(UserDetailsDto userDetailsDto, UUID userId) {
+    public UserDetailsDto createUserDetails(UserDetailsDto userDetailsDto, Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
         if (user.getUserDetails() != null) {
@@ -49,7 +49,7 @@ public class UserDetailServiceImpl implements UserDetailService {
     }
 
     @Override
-    public UserDetailsDto updateUserDetailsForUser(UUID userId, UserDetailsDto userDetailsDto) {
+    public UserDetailsDto updateUserDetailsForUser(Long userId, UserDetailsDto userDetailsDto) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
         UserDetails userDetails = user.getUserDetails();
@@ -61,7 +61,7 @@ public class UserDetailServiceImpl implements UserDetailService {
     }
 
     @Override
-    public void deleteUserDetailsById(UUID id) {
+    public void deleteUserDetailsById(Long id) {
         Optional<UserDetails> optionalUserDetails = userDetailsRepository.findById(id);
         if (optionalUserDetails.isPresent()) {
             userDetailsRepository.deleteById(id);

@@ -12,8 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
-
 @RestController
 @RequestMapping("/user-details")
 public class UserDetailsController {
@@ -21,7 +19,7 @@ public class UserDetailsController {
     private UserDetailService userDetailService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getUserDetailsByUserId(@PathVariable UUID userId) {
+    public ResponseEntity<?> getUserDetailsByUserId(@PathVariable Long userId) {
         try {
             UserDetailsDto userDetails = userDetailService.getUserDetailsByUserId(userId);
             return ResponseEntity.ok(userDetails);
@@ -31,7 +29,7 @@ public class UserDetailsController {
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<?> createUserDetails(@PathVariable UUID userId, @Valid @RequestBody UserDetailsDto userDetailsDto, BindingResult bindingResult) {
+    public ResponseEntity<?> createUserDetails(@PathVariable Long userId, @Valid @RequestBody UserDetailsDto userDetailsDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
         }
@@ -44,7 +42,7 @@ public class UserDetailsController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateUserDetails(@Valid @RequestBody UserDetailsDto userDetailsDto, BindingResult bindingResult, @PathVariable UUID id) {
+    public ResponseEntity<?> updateUserDetails(@Valid @RequestBody UserDetailsDto userDetailsDto, BindingResult bindingResult, @PathVariable Long id) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
         }
@@ -57,7 +55,7 @@ public class UserDetailsController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteUserDetailsById(@PathVariable UUID id) {
+    public ResponseEntity<?> deleteUserDetailsById(@PathVariable Long id) {
         try {
             userDetailService.deleteUserDetailsById(id);
             return ResponseEntity.ok("User details deleted");

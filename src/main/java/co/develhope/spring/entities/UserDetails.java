@@ -5,8 +5,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.UUID;
-
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,7 +14,7 @@ import java.util.UUID;
 public class UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private Long id;
 
     @Column(name= "first_name",nullable = false)
     private String firstName;

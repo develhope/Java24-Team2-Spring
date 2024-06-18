@@ -14,11 +14,10 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 @Data
 public class UserDto {
-    private UUID id;
+    private Long id;
 
     @NotNull(message = "L'email non può essere nulla")
     @NotBlank(message = "L'email non può essere vuota")

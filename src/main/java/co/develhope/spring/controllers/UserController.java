@@ -5,14 +5,11 @@ import co.develhope.spring.exceptions.UserAlreadyExistsException;
 import co.develhope.spring.exceptions.UserNotFoundException;
 import co.develhope.spring.services.UserService;
 import jakarta.validation.Valid;
-import org.hibernate.annotations.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/users")
@@ -22,7 +19,7 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getUserById(@PathVariable UUID id) {
+    public ResponseEntity<?> getUserById(@PathVariable Long id) {
         try {
             UserDto userDto = userService.getUserById(id);
             userDto.setPassword(null);
@@ -47,7 +44,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateUser(@Valid @RequestBody UserDto userDto, BindingResult bindingResult, @PathVariable UUID id) {
+    public ResponseEntity<?> updateUser(@Valid @RequestBody UserDto userDto, BindingResult bindingResult, @PathVariable Long id) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
         }
@@ -61,7 +58,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteUserById(@PathVariable UUID id) {
+    public ResponseEntity<?> deleteUserById(@PathVariable Long id) {
         try {
             userService.deleteUserById(id);
             return ResponseEntity.ok("User deleted");

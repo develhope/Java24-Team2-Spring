@@ -6,11 +6,11 @@ import java.util.UUID;
 
 public interface UserDetailService {
 
-    UserDetailsDto getUserDetailsByUserId(UUID userId);
+    UserDetailsDto getUserDetailsByUserId(Long userId);
 
-    UserDetailsDto createUserDetails(UserDetailsDto userDetailsDto, UUID userId);
+    UserDetailsDto createUserDetails(UserDetailsDto userDetailsDto,Long userId);
 
-    UserDetailsDto updateUserDetailsForUser(UUID userId, UserDetailsDto userDetailsDto);
+    UserDetailsDto updateUserDetailsForUser(Long userId, UserDetailsDto userDetailsDto);
 
-    void deleteUserDetailsById(UUID id);
+    void deleteUserDetailsById(Long id);
 }

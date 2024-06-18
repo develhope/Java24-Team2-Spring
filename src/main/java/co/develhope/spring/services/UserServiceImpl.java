@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService{
     UserMapper userMapper;
 
     @Override
-    public UserDto getUserById(UUID id) {
+    public UserDto getUserById(Long id) {
         User user = userRepository.findById(id).orElseThrow(()-> new UserNotFoundException("User not found"));
         return userMapper.toDTO(user);
     }
@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserDto updateUser(UserDto userDto, UUID id) {
+    public UserDto updateUser(UserDto userDto, Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
         user.setUsername(userDto.getUsername());
@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void deleteUserById(UUID id) {
+    public void deleteUserById(Long id) {
         Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isPresent()) {
             userRepository.deleteById(id);
