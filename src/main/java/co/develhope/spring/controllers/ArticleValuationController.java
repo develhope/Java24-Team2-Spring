@@ -16,28 +16,29 @@ public class ArticleValuationController {
     private ArticleValuationRepo articleValuationRepo;
 
 
-
-
     @PostMapping
-    public ResponseEntity<String> createArticleValuation(@RequestBody ArticleValuation articleValuation) {
-        if (articleValuation.getRating() < 1 || articleValuation.getRating() > 5) {
-            return ResponseEntity.badRequest().body("Il punteggio deve essere compreso tra 1 e 5.");
+    public ResponseEntity<?> createArticleValuation(@RequestBody ArticleValuation articleValuation) {
+        try {
+            if (articleValuation.getRating() < 1 || articleValuation.getRating() > 5) {
+                return ResponseEntity.badRequest().body("Il punteggio deve essere compreso tra 1 e 5.");
+            }
+            ArticleValuation articleValuation1 = articleValuationService.createArticleValuation(articleValuation);
+            return ResponseEntity.ok().body("Valutazione aggiunta con successo con valore: " + articleValuation1.getRating());
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-        ArticleValuation articleValuation1 = articleValuationService.createArticleValuation(articleValuation);
-        articleValuationRepo.save(articleValuation1);
-
-        return ResponseEntity.ok("Valutazione aggiunta con successo.");
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ArticleValuation> upArticleValuation(@RequestBody ArticleValuation modifiedValuation, @PathVariable Long id) {
         ArticleValuation modifiedV = articleValuationService.upArticleValuation(modifiedValuation, id);
         if (modifiedV != null) {
-            return  ResponseEntity.ok().body(modifiedV);
+            return ResponseEntity.ok().body(modifiedV);
         } else {
             return ResponseEntity.noContent().build();
         }
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteValuationById(@PathVariable Long id) {
         articleValuationService.deleteValuationById(id);
