@@ -1,5 +1,6 @@
 package co.develhope.spring.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -21,10 +22,12 @@ public class Follow {
 
     @ManyToOne
     @JoinColumn(name = "followerId", nullable = false)
+    @JsonBackReference(value = "user-follow")
     private User follower; // Tieni i follower come già erano prima.
 
     @ManyToOne
     @JoinColumn(name = "userId", nullable = false)
+    @JsonBackReference(value = "follow-user")
     private User user; // Sostituire 'followed' con 'user'
 
     @Column(nullable = false)

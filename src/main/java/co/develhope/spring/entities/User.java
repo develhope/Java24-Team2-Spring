@@ -32,7 +32,7 @@ public class User {
     @Column
     private LocalDate signUpDate;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_details")
     private UserDetails userDetails;
 
@@ -45,5 +45,10 @@ public class User {
     private List<Comment> comments;
 
     @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL)
-    private List<Follow> followed;
+    @JsonManagedReference(value = "user-follow")
+    private List<Follow> followers;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "follow-user")
+    private List<Follow> following;
 }

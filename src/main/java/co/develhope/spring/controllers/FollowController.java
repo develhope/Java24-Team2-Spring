@@ -1,27 +1,30 @@
 package co.develhope.spring.controllers;
 
+import co.develhope.spring.dtos.FollowDto;
+import co.develhope.spring.dtos.UserDto;
 import co.develhope.spring.entities.Follow;
 import co.develhope.spring.services.FollowService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/follow")
 public class FollowController {
 
     @Autowired
     private FollowService followService;
 
     @PostMapping("/follow")
-    public Follow followUser(@RequestParam Long followerId, @RequestParam Long userId) throws Throwable {
-        return followService.followUser(followerId, userId);
+    public ResponseEntity<?> followUser(@RequestBody FollowDto followDto) throws Throwable {
+        return ResponseEntity.ok(followService.followUser(followDto));
     }
 
-    @DeleteMapping("/unfollow")
-    public void unfollowUser(@RequestParam Long followerId, @RequestParam Long userId) throws Throwable {
-        followService.unfollowUser(followerId, userId);
+    @DeleteMapping("/unfollow/{id}")
+    public ResponseEntity<String> unfollowUser(@PathVariable Long id) throws Throwable {
+        followService.unfollowUser(id);
+        return ResponseEntity.ok("User unfollowed");
     }
 
     @GetMapping("/following/{userId}")
@@ -29,5 +32,3 @@ public class FollowController {
         return followService.getFollowing(userId);
     }
 }
-
-// Aggiornati i parametri degli endpoint per utilizzare userId invece di followedId.
