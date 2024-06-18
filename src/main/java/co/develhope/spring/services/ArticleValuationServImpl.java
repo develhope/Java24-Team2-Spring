@@ -21,7 +21,7 @@ public class ArticleValuationServImpl implements ArticleValuationService {
         Article article = articleRepository.findById(articlesVal.getArticles().getId())
                 .orElseThrow(() -> new RuntimeException("Article not found"));
         articlesVal.setDatePublication(new Date());
-        articlesVal.setArticles(article);
+        article.setArticleValuation(articlesVal);
 
         return articleValuationRepo.saveAndFlush(articlesVal);
     }
