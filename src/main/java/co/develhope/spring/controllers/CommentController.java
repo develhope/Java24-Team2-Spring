@@ -36,7 +36,6 @@ public class CommentController {
         } catch (NoSuchElementException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
-
     }
 
     @PutMapping("/{id}")

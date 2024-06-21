@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Data
 @Entity
-@Table(name="user_details")
+@Table(name="users_details")
 public class UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,13 +22,13 @@ public class UserDetails {
     @Column(name= "last_name",nullable = false)
     private String lastName;
 
-    @Column(name="address")
+    @Column
     private String address;
 
-    @Column(name="birthday")
+    @Column
     private LocalDate birthday;
 
-    @Column(name="gender")
+    @Column
     @Enumerated(EnumType.STRING)
     private Gender gender;
 }

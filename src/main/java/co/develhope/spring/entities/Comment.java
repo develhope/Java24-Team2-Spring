@@ -27,10 +27,10 @@ public class Comment {
     @Column(name = "comment_text", nullable = false)
     @NotNull
     @NotBlank
-    @Size(min = 1, max = 100)
+    @Size(min = 1, max = 8000)
     private String text;
 
-    @Column(name = "comment_datetime")
+    @Column(name = "comment_date")
     private Date dateTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -42,9 +42,4 @@ public class Comment {
     @JoinColumn(name = "article_id")
     @JsonBackReference(value = "article-comment")
     private Article article;
-
-    public String getUserName(){
-        return this.user.getUsername();
-    }
-    // recupera id utente per mostrarlo nella get dei comment
 }

@@ -67,6 +67,5 @@ public class CommentServiceImpl implements CommentService{
         } else {
             throw new NoSuchElementException("Comment not found");
         }
-
     }
 }

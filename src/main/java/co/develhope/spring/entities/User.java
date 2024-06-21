@@ -1,6 +1,5 @@
 package co.develhope.spring.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -29,7 +28,7 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column
+    @Column(name="signup_date")
     private LocalDate signUpDate;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -38,7 +37,7 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonManagedReference(value = "user-article")
-    private List<Article> articles;
+    private List <Article> articles;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonManagedReference(value = "user-comment")

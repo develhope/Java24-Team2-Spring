@@ -2,6 +2,8 @@ package co.develhope.spring.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,25 +11,29 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 @Entity
 @Data
-@Table
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "rating", "articles_id" })})
 @AllArgsConstructor
 @NoArgsConstructor
 public class ArticleValuation {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     @Column(nullable = false)
     private Date datePublication;
+
     @Column(nullable = false)
-    private int rating;
+    @Min(1)
+    @Max(5)
+    private short rating;
 
-    public ArticleValuation(Long id, int rating) {
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    @JsonBackReference
+    private User user;
 
-
-    @OneToOne(fetch =FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="articles_id")
     @JsonBackReference(value = "article-articleValuation")
     private Article articles;
-
 }

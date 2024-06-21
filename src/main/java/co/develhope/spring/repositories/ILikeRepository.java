@@ -7,5 +7,7 @@ import java.util.List;
 
 public interface ILikeRepository extends JpaRepository<ILike, Long> {
     List<ILike> findByUserId(Long userId);
+
     List<ILike> findByCommentId(Long commentId);
+
 }

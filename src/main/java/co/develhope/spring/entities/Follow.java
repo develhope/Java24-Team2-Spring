@@ -1,7 +1,6 @@
 package co.develhope.spring.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,7 +9,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
-@Table
+@Table(name="follows")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -23,13 +22,13 @@ public class Follow {
     @ManyToOne
     @JoinColumn(name = "followerId", nullable = false)
     @JsonBackReference(value = "user-follow")
-    private User follower; // Tieni i follower come già erano prima.
+    private User follower;
 
     @ManyToOne
     @JoinColumn(name = "userId", nullable = false)
     @JsonBackReference(value = "follow-user")
-    private User user; // Sostituire 'followed' con 'user'
+    private User user;
 
     @Column(nullable = false)
-    private LocalDateTime dataOra;
+    private LocalDateTime date;
 }

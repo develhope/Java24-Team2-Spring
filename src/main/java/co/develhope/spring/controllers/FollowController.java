@@ -1,10 +1,11 @@
 package co.develhope.spring.controllers;
 
 import co.develhope.spring.dtos.FollowDto;
-import co.develhope.spring.dtos.UserDto;
 import co.develhope.spring.entities.Follow;
+import co.develhope.spring.exceptions.UserNotFoundException;
 import co.develhope.spring.services.FollowService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +29,25 @@ public class FollowController {
     }
 
     @GetMapping("/following/{userId}")
-    public List<Follow> getFollowing(@PathVariable Long userId) throws Throwable {
-        return followService.getFollowing(userId);
+    public ResponseEntity<List<Follow>> getFollowing(@PathVariable Long userId) throws Throwable {
+        return ResponseEntity.ok(followService.getFollowing(userId));
+    }
+
+    @GetMapping("/number-of-follow/{userId}")
+    public ResponseEntity<?> getNumberOfFollow(@PathVariable Long userId){
+        try{
+            return ResponseEntity.ok(followService.getNumberOfFollows(userId));
+        }catch(UserNotFoundException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/number-of-followed/{userId}")
+    public ResponseEntity<?> getNumberOfFollowed(@PathVariable Long userId) {
+        try {
+            return ResponseEntity.ok(followService.getNumberOfFollowed(userId));
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 }

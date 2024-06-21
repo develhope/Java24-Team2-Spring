@@ -1,29 +1,33 @@
 package co.develhope.spring.controllers;
 
 import co.develhope.spring.entities.ArticleValuation;
-import co.develhope.spring.repositories.ArticleValuationRepo;
 import co.develhope.spring.services.ArticleValuationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/valutazioneArticolo")
+@RequestMapping("/articles-valuation")
 public class ArticleValuationController {
     @Autowired
     private ArticleValuationService articleValuationService;
-    @Autowired
-    private ArticleValuationRepo articleValuationRepo;
 
-    @PostMapping
-    public ResponseEntity<String> createArticleValuation(@RequestBody ArticleValuation articleValuation) {
-        if (articleValuation.getRating() < 1 || articleValuation.getRating() > 5) {
-            return ResponseEntity.badRequest().body("Il punteggio deve essere compreso tra 1 e 5.");
+    @PostMapping("/{id}")
+    public ResponseEntity<?> createArticleValuation(@RequestBody ArticleValuation articleValuation,@PathVariable Long id) {
+        try {
+            if (articleValuation.getRating() < 1 || articleValuation.getRating() > 5) {
+                return ResponseEntity.badRequest().body("Il punteggio deve essere compreso tra 1 e 5.");
+            }
+            ArticleValuation articleValuation1 = articleValuationService.createArticleValuation(articleValuation, id);
+            return ResponseEntity.ok().body("Valutazione aggiunta con successo con valore: " + articleValuation1.getRating());
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-        ArticleValuation articleValuation1 = articleValuationService.createArticleValuation(articleValuation);
-        articleValuationRepo.save(articleValuation1);
+    }
 
-        return ResponseEntity.ok("Valutazione aggiunta con successo.");
+    @GetMapping("/avgValuation")
+    public ResponseEntity<Float> getAvgArticleValuation(Long id){
+        return ResponseEntity.ok(articleValuationService.getAvgArticleValuation(id));
     }
 
     @PutMapping("/{id}")
@@ -35,12 +39,12 @@ public class ArticleValuationController {
             return ResponseEntity.noContent().build();
         }
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteValuationById(@PathVariable Long id) {
         articleValuationService.deleteValuationById(id);
         return ResponseEntity.noContent().build();
     }
-
 }
 
 

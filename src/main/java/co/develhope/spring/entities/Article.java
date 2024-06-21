@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Table(name="articles")
@@ -24,12 +24,11 @@ public class Article {
     @Column(nullable = false)
     private String title;
 
-
-    @Column(nullable = false, length = 5000)
+    @Column(nullable = false)
     private String text;
 
-    @Column(nullable = false)
-    private Date postingDate;
+    @Column(name = "posting_date", nullable = false)
+    private LocalDate postingDate;
 
     @Column(nullable = false)
     private Category category;
@@ -43,9 +42,8 @@ public class Article {
     @JsonManagedReference(value = "article-comment")
     private List<Comment> comments;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "article_valuation")
     @JsonManagedReference(value = "article-articleValuation")
-    private ArticleValuation articleValuation;
-
+    private List<ArticleValuation> articleValuation;
 }

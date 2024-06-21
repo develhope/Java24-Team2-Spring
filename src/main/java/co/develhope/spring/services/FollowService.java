@@ -2,7 +2,6 @@ package co.develhope.spring.services;
 
 import co.develhope.spring.dtoconverters.FollowMapper;
 import co.develhope.spring.dtos.FollowDto;
-import co.develhope.spring.dtos.UserDto;
 import co.develhope.spring.entities.Follow;
 import co.develhope.spring.entities.User;
 import co.develhope.spring.exceptions.UserNotFoundException;
@@ -27,8 +26,7 @@ public class FollowService {
     private FollowMapper followMapper;
 
     public FollowDto followUser(FollowDto followDto) throws Throwable {
-
-        User follower = userRepository.findById(followDto.getFollower().getId()).orElseThrow(() -> new IllegalArgumentException("Follower not found"));
+        User follower = userRepository.findById(followDto.getFollower().getId()).orElseThrow(() -> new UserNotFoundException("Follower not found"));
         Follow followed = followMapper.toEntity(followDto);
         User user= userRepository.findById(followed.getUser().getId()).orElseThrow(() -> new UserNotFoundException("User not found"));
 
@@ -38,7 +36,7 @@ public class FollowService {
         Follow follow = new Follow();
         follow.setFollower(follower);
         follow.setUser(user);
-        follow.setDataOra(LocalDateTime.now());
+        follow.setDate(LocalDateTime.now());
 
         followRepository.save(follow);
         return followMapper.toDTO(follow);
@@ -53,6 +51,15 @@ public class FollowService {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
         return followRepository.findByFollower(user);
     }
+
+    public Long getNumberOfFollows(Long userId){
+        User user = userRepository.findById(userId).orElseThrow(()-> new UserNotFoundException("User Not Found"));
+        return followRepository.countFollowersByUserId(user.getId());
+    }
+
+    public Long getNumberOfFollowed(Long userId){
+        User user = userRepository.findById(userId).orElseThrow(()-> new UserNotFoundException("User Not Found"));
+        return followRepository.countFollowingByFollowerId(user.getId());
+    }
 }
 
-// Aggiornati i metodi followUser, unfollowUser e getFollowing per riflettere le modifiche nell'entità.
