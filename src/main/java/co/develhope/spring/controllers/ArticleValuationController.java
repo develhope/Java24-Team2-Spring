@@ -34,7 +34,7 @@ public class ArticleValuationController {
     public ResponseEntity<ArticleValuation> upArticleValuation(@RequestBody ArticleValuation modifiedValuation, @PathVariable Long id) {
         ArticleValuation modifiedV = articleValuationService.upArticleValuation(modifiedValuation, id);
         if (modifiedV != null) {
-            return  ResponseEntity.ok().body(modifiedV);
+            return ResponseEntity.ok().body(modifiedV);
         } else {
             return ResponseEntity.noContent().build();
         }

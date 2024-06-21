@@ -8,10 +8,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
+
 @Entity
 @Data
-@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "rating", "articles_id" })})
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "user_id", "articles_id" })})
 @AllArgsConstructor
 @NoArgsConstructor
 public class ArticleValuation {
@@ -20,7 +21,7 @@ public class ArticleValuation {
     private Long id;
 
     @Column(nullable = false)
-    private Date datePublication;
+    private LocalDate datePublication;
 
     @Column(nullable = false)
     @Min(1)

@@ -7,9 +7,11 @@ import co.develhope.spring.exceptions.UserNotFoundException;
 import co.develhope.spring.repositories.ArticleRepository;
 import co.develhope.spring.repositories.ArticleValuationRepository;
 import co.develhope.spring.repositories.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Optional;
 @Service
@@ -26,12 +28,12 @@ public class ArticleValuationServiceImpl implements ArticleValuationService {
     @Override
     public ArticleValuation createArticleValuation(ArticleValuation articlesVal, Long userId){
         Article article = articleRepository.findById(articlesVal.getArticles().getId())
-                .orElseThrow(() -> new RuntimeException("Articolo non trovato"));
+                .orElseThrow(() -> new EntityNotFoundException("Articolo non trovato"));
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("Utente non trovato"));
 
-        articlesVal.setDatePublication(new Date());
+        articlesVal.setDatePublication(LocalDate.now());
         articlesVal.setArticles(article);
         articlesVal.setUser(user);
 
