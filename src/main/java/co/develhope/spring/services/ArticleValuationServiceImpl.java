@@ -31,9 +31,9 @@ public class ArticleValuationServiceImpl implements ArticleValuationService {
                 .orElseThrow(() -> new EntityNotFoundException("Articolo non trovato"));
 
         User user = userRepository.findById(articlesVal.getUser().getId())
-                .orElseThrow(() -> new UserNotFoundException("Utente non trovato"));
+                .orElseThrow(() -> new EntityNotFoundException("Utente non trovato"));
 
-        articlesVal.setDatePublication(LocalDate.now());
+        articlesVal.setValuationDate(LocalDate.now());
         articlesVal.setArticles(article);
         articlesVal.setUser(user);
 

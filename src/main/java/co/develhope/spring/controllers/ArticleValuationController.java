@@ -2,6 +2,7 @@ package co.develhope.spring.controllers;
 
 import co.develhope.spring.entities.ArticleValuation;
 import co.develhope.spring.services.ArticleValuationService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class ArticleValuationController {
             }
             ArticleValuation articleValuation1 = articleValuationService.createArticleValuation(articleValuation);
             return ResponseEntity.ok().body("Valutazione aggiunta con successo con valore: " + articleValuation1.getRating());
-        } catch (RuntimeException e) {
+        } catch (EntityNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

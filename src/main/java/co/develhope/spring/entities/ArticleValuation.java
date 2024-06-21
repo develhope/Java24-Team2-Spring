@@ -21,7 +21,7 @@ public class ArticleValuation {
     private Long id;
 
     @Column(nullable = false)
-    private LocalDate datePublication;
+    private LocalDate valuationDate;
 
     @Column(nullable = false)
     @Min(1)

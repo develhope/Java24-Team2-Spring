@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Table(name="articles")
@@ -28,7 +28,7 @@ public class Article {
     private String text;
 
     @Column(name = "posting_date", nullable = false)
-    private LocalDate postingDate;
+    private LocalDateTime postingDate;
 
     @Column(nullable = false)
     private Category category;

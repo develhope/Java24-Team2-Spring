@@ -41,9 +41,13 @@ public class UserStatsServiceImpl implements UserStatsService {
     public Double percentageOfUsersByGender() {
         Long numberOfMales = userDetailsRepository.countByGender(Gender.MALE);
         Long numberOfFemales = userDetailsRepository.countByGender(Gender.FEMALE);
-        Long numberOFNoBinary = userDetailsRepository.countByGender(Gender.NOBINARY);
-        Long totalUsers = numberOfMales + numberOfFemales + numberOFNoBinary;
+        Long numberOfNoBinary = userDetailsRepository.countByGender(Gender.NOBINARY);
 
-        return (double) (numberOfMales / totalUsers * 100);
+        long totalUsers = numberOfMales + numberOfFemales + numberOfNoBinary;
+
+        Double percentageOfMales = (double) numberOfMales / totalUsers * 100;
+        Double percentageOfFemales = (double) numberOfFemales / totalUsers * 100;
+        Double percentageOfNonBinary = (double) numberOfNoBinary / totalUsers * 100;
+        return percentageOfMales + percentageOfFemales + percentageOfNonBinary;
     }
 }

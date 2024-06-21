@@ -7,10 +7,12 @@ import co.develhope.spring.entities.User;
 import co.develhope.spring.repositories.CommentRepository;
 import co.develhope.spring.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Service
 public class ILikeService {
 
     @Autowired
@@ -22,8 +24,8 @@ public class ILikeService {
     @Autowired
     private CommentRepository commentRepository;
 
-    public ILike likeComment(Long userId, Long commentId) throws Throwable {
-        User user = (User) userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
+    public ILike likeComment(Long userId, Long commentId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("Comment not found"));
 
         ILike iLike = new ILike();

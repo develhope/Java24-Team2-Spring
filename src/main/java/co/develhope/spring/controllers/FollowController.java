@@ -18,7 +18,7 @@ public class FollowController {
     private FollowService followService;
 
     @PostMapping("/follow")
-    public ResponseEntity<?> followUser(@RequestBody FollowDto followDto) throws Throwable {
+    public ResponseEntity<FollowDto> followUser(@RequestBody FollowDto followDto) throws Throwable {
         return ResponseEntity.ok(followService.followUser(followDto));
     }
 
@@ -33,11 +33,11 @@ public class FollowController {
         return ResponseEntity.ok(followService.getFollowing(userId));
     }
 
-    @GetMapping("/number-of-follow/{userId}")
-    public ResponseEntity<?> getNumberOfFollow(@PathVariable Long userId){
-        try{
+    @GetMapping("/number-of-follower/{userId}")
+    public ResponseEntity<?> getNumberOfFollower(@PathVariable Long userId) {
+        try {
             return ResponseEntity.ok(followService.getNumberOfFollows(userId));
-        }catch(UserNotFoundException e){
+        } catch (UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }

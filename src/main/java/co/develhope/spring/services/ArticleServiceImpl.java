@@ -8,11 +8,12 @@ import co.develhope.spring.enums.Category;
 import co.develhope.spring.exceptions.UserNotFoundException;
 import co.develhope.spring.repositories.ArticleRepository;
 import co.develhope.spring.repositories.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +31,7 @@ public class ArticleServiceImpl implements ArticleService {
         User user = userRepository.findById(article.getUser().getId())
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
 
-            article.setPostingDate(LocalDate.now());
+            article.setPostingDate(LocalDateTime.now());
             article.setUser(user);
             return articleRepository.saveAndFlush(article);
     }
@@ -54,7 +55,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public ArticleDTO upArticle(ArticleDTO articleDTO, Long id) {
         Article article = articleRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Article not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Article not found"));
         article.setTitle(articleDTO.getTitle());
         article.setText(articleDTO.getText());
         article.setCategory(articleDTO.getCategory());

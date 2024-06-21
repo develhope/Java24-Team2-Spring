@@ -15,11 +15,10 @@ public class ILikeController {
     @Autowired
     private ILikeService iLikeService;
 
-    @PostMapping("/like")
-    public ILike likeComment(@RequestParam Long userId, @RequestParam Long commentId) throws Throwable {
+    @PostMapping("/like/{userId}")
+    public ILike likeComment(@PathVariable Long userId, @RequestParam Long commentId) throws Throwable {
         return iLikeService.likeComment(userId, commentId);
     }
-
     @GetMapping("/user/{userId}")
     public List<ILike> getLikesByUser(@PathVariable Long userId) {
         return iLikeService.getLikesByUser(userId);
