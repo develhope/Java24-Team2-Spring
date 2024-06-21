@@ -3,7 +3,7 @@ package co.develhope.spring.services;
 import co.develhope.spring.entities.ArticleValuation;
 
 public interface ArticleValuationService {
-    ArticleValuation createArticleValuation(ArticleValuation articlesValuation, Long id);
+    ArticleValuation createArticleValuation(ArticleValuation articlesValuation);
 
     Float getAvgArticleValuation(Long id);
 

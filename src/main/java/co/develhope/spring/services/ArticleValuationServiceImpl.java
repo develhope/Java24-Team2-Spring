@@ -12,8 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Optional;
+
 @Service
 public class ArticleValuationServiceImpl implements ArticleValuationService {
     @Autowired
@@ -26,11 +26,11 @@ public class ArticleValuationServiceImpl implements ArticleValuationService {
     private UserRepository userRepository;
 
     @Override
-    public ArticleValuation createArticleValuation(ArticleValuation articlesVal, Long userId){
+    public ArticleValuation createArticleValuation(ArticleValuation articlesVal){
         Article article = articleRepository.findById(articlesVal.getArticles().getId())
                 .orElseThrow(() -> new EntityNotFoundException("Articolo non trovato"));
 
-        User user = userRepository.findById(userId)
+        User user = userRepository.findById(articlesVal.getUser().getId())
                 .orElseThrow(() -> new UserNotFoundException("Utente non trovato"));
 
         articlesVal.setDatePublication(LocalDate.now());
@@ -44,6 +44,7 @@ public class ArticleValuationServiceImpl implements ArticleValuationService {
     public Float getAvgArticleValuation(Long id) {
         return articleValuationRepo.avgOfSingleValuation(id);
     }
+
     @Override
     public ArticleValuation upArticleValuation(ArticleValuation articleValuation, Long id) {
         Optional<ArticleValuation> optionalArticleValuation= articleValuationRepo.findById(id);
@@ -56,10 +57,8 @@ public class ArticleValuationServiceImpl implements ArticleValuationService {
         }
     }
 
-
     @Override
     public void deleteValuationById(Long id) {
         articleValuationRepo.deleteById(id);
     }
-
 }

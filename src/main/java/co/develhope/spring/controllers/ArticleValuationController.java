@@ -12,21 +12,21 @@ public class ArticleValuationController {
     @Autowired
     private ArticleValuationService articleValuationService;
 
-    @PostMapping("/{id}")
-    public ResponseEntity<?> createArticleValuation(@RequestBody ArticleValuation articleValuation,@PathVariable Long id) {
+    @PostMapping
+    public ResponseEntity<?> createArticleValuation(@RequestBody ArticleValuation articleValuation) {
         try {
             if (articleValuation.getRating() < 1 || articleValuation.getRating() > 5) {
                 return ResponseEntity.badRequest().body("Il punteggio deve essere compreso tra 1 e 5.");
             }
-            ArticleValuation articleValuation1 = articleValuationService.createArticleValuation(articleValuation, id);
+            ArticleValuation articleValuation1 = articleValuationService.createArticleValuation(articleValuation);
             return ResponseEntity.ok().body("Valutazione aggiunta con successo con valore: " + articleValuation1.getRating());
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    @GetMapping("/avgValuation")
-    public ResponseEntity<Float> getAvgArticleValuation(Long id){
+    @GetMapping("/average-valuation/{id}")
+    public ResponseEntity<Float> getAvgArticleValuation(@PathVariable  Long id){
         return ResponseEntity.ok(articleValuationService.getAvgArticleValuation(id));
     }
 
