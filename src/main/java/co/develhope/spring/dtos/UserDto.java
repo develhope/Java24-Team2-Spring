@@ -5,7 +5,6 @@ import co.develhope.spring.entities.Comment;
 import co.develhope.spring.entities.UserDetails;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -41,7 +40,6 @@ public class UserDto {
 
     private UserDetails userDetails;
 
-    @JsonManagedReference(value = "commentsReference")
     private List<Comment> comments;
 
     private List<Article> articles;
