@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class FollowService {
@@ -27,9 +28,8 @@ public class FollowService {
     private FollowMapper followMapper;
 
     public FollowDto followUser(FollowDto followDto) throws Throwable {
-        User follower = userRepository.findById(followDto.getFollower().getId()).orElseThrow(() -> new UserNotFoundException("Follower not found"));
-        Follow followed = followMapper.toEntity(followDto);
-        User user= userRepository.findById(followed.getUser().getId()).orElseThrow(() -> new UserNotFoundException("User not found"));
+        User follower = userRepository.findById(followDto.getFollowerId()).orElseThrow(() -> new UserNotFoundException("Follower not found"));
+        User user = userRepository.findById(followDto.getUserId()).orElseThrow(() -> new UserNotFoundException("User not found"));
 
         if (followRepository.existsByFollowerIdAndUserId(follower.getId(), user.getId())) {
             throw new IllegalArgumentException("Already following this user");
@@ -44,14 +44,27 @@ public class FollowService {
     }
 
     public void unfollowUser(Long userId, Long followId) throws Throwable {
-        User user = userRepository.findById(userId).orElseThrow(()-> new UserNotFoundException("User not found"));
-        Follow follow = followRepository.findById(followId).orElseThrow(() -> new EntityNotFoundException("Follow id not found"));
+        userRepository.findById(userId).orElseThrow(()-> new UserNotFoundException("User not found"));
+        followRepository.findById(followId).orElseThrow(() -> new EntityNotFoundException("Follow id not found"));
         followRepository.deleteById(followId);
     }
 
-    public List<Follow> getFollowing(Long userId) throws Throwable {
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
-        return followRepository.findByFollower(user);
+    public List<Long> getFollowers(Long userId) throws Throwable {
+        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User not found"));
+        List<Follow> follows = followRepository.findAllByUser(user);
+        return follows.stream()
+                .map(Follow::getFollower)
+                .map(User::getId) // Prendi solo l'ID del follower
+                .collect(Collectors.toList());
+    }
+
+    public List<Long> getFollowed(Long userId) throws Throwable {
+        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User not found"));
+        List<Follow> follows = followRepository.findAllByFollower(user);
+        return follows.stream()
+                .map(Follow::getUser)
+                .map(User::getId) // Prendi solo l'ID del followed
+                .collect(Collectors.toList());
     }
 
     public Long getNumberOfFollows(Long userId){

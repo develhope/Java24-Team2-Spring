@@ -11,7 +11,9 @@ import java.util.List;
 
 @Repository
 public interface FollowRepository extends JpaRepository<Follow, Long> {
-    List<Follow> findByFollower(User follower);
+    List<Follow> findAllByUser(User follower);
+
+    List<Follow> findAllByFollower(User user);
 
     @Query("SELECT CASE WHEN COUNT(f) > 0 THEN true ELSE false END " +
             "FROM Follow f WHERE f.follower.id = :followerId AND f.user.id = :userId")
@@ -22,4 +24,6 @@ public interface FollowRepository extends JpaRepository<Follow, Long> {
 
     @Query("SELECT COUNT(f) FROM Follow f WHERE f.follower.id = :userId")
     Long countFollowingByFollowerId(@Param("userId") Long userId);
+
+
 }

@@ -1,6 +1,5 @@
 package co.develhope.spring.dtos;
 
-import co.develhope.spring.entities.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
@@ -11,9 +10,9 @@ public class FollowDto {
 
     private Long idFollow;
 
-    private User follower;
+    private Long followerId;
 
-    private User user;
+    private Long userId;
 
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate date;

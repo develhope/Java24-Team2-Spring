@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Data
 public class Follow {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idFollow;

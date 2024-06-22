@@ -1,6 +1,5 @@
 package co.develhope.spring.dtos;
 
-import co.develhope.spring.entities.ArticleValuation;
 import co.develhope.spring.enums.Category;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.EnumType;
@@ -11,7 +10,6 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 public class ArticleDTO {
@@ -34,6 +32,4 @@ public class ArticleDTO {
     @NotNull
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDateTime postingDate;
-
-    private List<ArticleValuation> articleValuations;
 }

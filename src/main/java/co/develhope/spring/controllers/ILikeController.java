@@ -1,5 +1,6 @@
 package co.develhope.spring.controllers;
 
+import co.develhope.spring.dtos.LikeDto;
 import co.develhope.spring.entities.ILike;
 import co.develhope.spring.services.ILikeService;
 import jakarta.persistence.EntityNotFoundException;
@@ -22,14 +23,9 @@ public class ILikeController {
         return iLikeService.likeComment(userId, commentId);
     }
 
-    @GetMapping("/user/{userId}")
-    public List<ILike> getLikesByUser(@PathVariable Long userId) {
-        return iLikeService.getLikesByUser(userId);
-    }
-
     @GetMapping("/{commentId}")
-    public List<ILike> getLikesByComment(@PathVariable Long commentId) {
-        return iLikeService.getLikesByComment(commentId);
+    public ResponseEntity<List<LikeDto>> getLikesByComment(@PathVariable Long commentId) {
+        return ResponseEntity.ok(iLikeService.getLikesByComment(commentId));
     }
 
     @GetMapping("/count/user/{userId}")

@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Table
 public class ILike {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

@@ -1,7 +1,6 @@
 package co.develhope.spring.controllers;
 
 import co.develhope.spring.dtos.FollowDto;
-import co.develhope.spring.entities.Follow;
 import co.develhope.spring.exceptions.UserNotFoundException;
 import co.develhope.spring.services.FollowService;
 import jakarta.persistence.EntityNotFoundException;
@@ -23,9 +22,14 @@ public class FollowController {
         return ResponseEntity.ok(followService.followUser(followDto));
     }
 
-    @GetMapping("/following/{userId}")
-    public ResponseEntity<List<Follow>> getFollowing(@PathVariable Long userId) throws Throwable {
-        return ResponseEntity.ok(followService.getFollowing(userId));
+    @GetMapping("/followers/{userId}")
+    public ResponseEntity<List<Long>> getFollowers(@PathVariable Long userId) throws Throwable {
+        return ResponseEntity.ok(followService.getFollowers(userId));
+    }
+
+    @GetMapping("/followed/{userId}")
+    public ResponseEntity<List<Long>> getFollowed(@PathVariable Long userId) throws Throwable {
+        return ResponseEntity.ok(followService.getFollowed(userId));
     }
 
     @GetMapping("/number-of-follower/{userId}")
