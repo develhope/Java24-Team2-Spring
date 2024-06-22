@@ -8,7 +8,7 @@ public interface UserStatsService {
 
     Float avgArticleValuationPerUser(Long id);
 
-    Short avgAge();
+    Float avgAge();
 
-    Double percentageOfUsersByGender();
+    String percentageOfUsersByGender();
 }

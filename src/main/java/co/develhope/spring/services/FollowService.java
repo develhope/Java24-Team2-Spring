@@ -7,6 +7,7 @@ import co.develhope.spring.entities.User;
 import co.develhope.spring.exceptions.UserNotFoundException;
 import co.develhope.spring.repositories.FollowRepository;
 import co.develhope.spring.repositories.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,9 +43,10 @@ public class FollowService {
         return followMapper.toDTO(follow);
     }
 
-    public void unfollowUser(Long id) throws Throwable {
-        followRepository.deleteById(id);
-
+    public void unfollowUser(Long userId, Long followId) throws Throwable {
+        User user = userRepository.findById(userId).orElseThrow(()-> new UserNotFoundException("User not found"));
+        Follow follow = followRepository.findById(followId).orElseThrow(() -> new EntityNotFoundException("Follow id not found"));
+        followRepository.deleteById(followId);
     }
 
     public List<Follow> getFollowing(Long userId) throws Throwable {

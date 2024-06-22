@@ -43,7 +43,6 @@ public class Article {
     private List<Comment> comments;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "article_valuation")
     @JsonManagedReference(value = "article-articleValuation")
     private List<ArticleValuation> articleValuation;
 }

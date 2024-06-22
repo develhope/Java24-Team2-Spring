@@ -4,7 +4,6 @@ import co.develhope.spring.entities.Article;
 import co.develhope.spring.entities.Comment;
 import co.develhope.spring.entities.UserDetails;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -32,10 +31,10 @@ public class UserDto {
     @NotNull(message = "La password non può essere nulla")
     @NotBlank(message = "La password non può essere vuota")
     @Size(min = 8, max = 100)
-    @JsonIgnore
+//    @JsonIgnore
     private String password;
 
-    @JsonFormat(pattern ="dd-MM-yyyy")
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate signUpDate;
 
     private UserDetails userDetails;

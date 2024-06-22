@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserDetailsRepository extends JpaRepository<UserDetails,Long> {
-    @Query(value = "SELECT AVG(YEAR(CURDATE()-YEAR(birthday)) AS average_age FROM user", nativeQuery = true)
-    Short averageAge();
+    @Query(value = "SELECT AVG(TIMESTAMPDIFF(YEAR, birthday, CURDATE())) AS average_age FROM users_details", nativeQuery = true)
+    Float averageAge();
 
     Long countByGender(Gender gender);
 }

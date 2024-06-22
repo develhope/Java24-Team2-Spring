@@ -1,11 +1,13 @@
 package co.develhope.spring.services;
 
 import co.develhope.spring.entities.ILike;
+import co.develhope.spring.exceptions.UserNotFoundException;
 import co.develhope.spring.repositories.ILikeRepository;
 import co.develhope.spring.entities.Comment;
 import co.develhope.spring.entities.User;
 import co.develhope.spring.repositories.CommentRepository;
 import co.develhope.spring.repositories.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +36,12 @@ public class ILikeService {
         iLike.setDateTime(LocalDateTime.now());
 
         return iLikeRepository.save(iLike);
+    }
+
+    public void unLikeComment(Long userId, Long commentId) throws Throwable {
+        User user = userRepository.findById(userId).orElseThrow(()-> new UserNotFoundException("User not found"));
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new EntityNotFoundException("Follow id not found"));
+        iLikeRepository.deleteById(commentId);
     }
 
     public List<ILike> getLikesByUser(Long userId) {

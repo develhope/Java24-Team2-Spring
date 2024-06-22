@@ -22,7 +22,13 @@ public class ArticleStatsController {
     }
 
     @GetMapping("/articles-per-category")
-    public ResponseEntity<Long> numberOfArticlesPerCategory(@RequestParam Category category) {
-        return ResponseEntity.ok().body(articleStatsService.numberOfArticlesByCategory(category));
+    public ResponseEntity<?> numberOfArticlesPerCategory(@RequestParam String category) {
+        try {
+            Category categoryEnum = Category.valueOf(category.toUpperCase()); // Convert string to enum
+            Long numberOfArticles = articleStatsService.numberOfArticlesByCategory(categoryEnum);
+            return ResponseEntity.ok().body(numberOfArticles);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Invalid category: " + category);
+        }
     }
 }

@@ -4,6 +4,7 @@ import co.develhope.spring.dtos.FollowDto;
 import co.develhope.spring.entities.Follow;
 import co.develhope.spring.exceptions.UserNotFoundException;
 import co.develhope.spring.services.FollowService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,12 +21,6 @@ public class FollowController {
     @PostMapping("/follow")
     public ResponseEntity<FollowDto> followUser(@RequestBody FollowDto followDto) throws Throwable {
         return ResponseEntity.ok(followService.followUser(followDto));
-    }
-
-    @DeleteMapping("/unfollow/{id}")
-    public ResponseEntity<String> unfollowUser(@PathVariable Long id) throws Throwable {
-        followService.unfollowUser(id);
-        return ResponseEntity.ok("User unfollowed");
     }
 
     @GetMapping("/following/{userId}")
@@ -48,6 +43,17 @@ public class FollowController {
             return ResponseEntity.ok(followService.getNumberOfFollowed(userId));
         } catch (UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+    @DeleteMapping("/unfollow/{userId}/follow/{followId}")
+    public ResponseEntity<String> unfollowUser(@PathVariable Long userId, @PathVariable Long followId) {
+        try {
+            followService.unfollowUser(userId, followId);
+            return ResponseEntity.ok("Successfully unfollowed user");
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Throwable e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred while unfollowing user");
         }
     }
 }

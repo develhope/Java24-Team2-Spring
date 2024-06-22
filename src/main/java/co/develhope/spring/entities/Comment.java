@@ -1,8 +1,6 @@
 package co.develhope.spring.entities;
 
-import co.develhope.spring.dtos.UserDto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -11,7 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Table(name = "comments")
 @Data
@@ -31,7 +29,7 @@ public class Comment {
     private String text;
 
     @Column(name = "comment_date")
-    private Date dateTime;
+    private LocalDateTime dateTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

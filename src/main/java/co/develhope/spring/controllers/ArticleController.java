@@ -47,12 +47,17 @@ public class ArticleController {
     }
 
     @GetMapping("/category")
-    public ResponseEntity<?> getArticleByCategory(@RequestParam Category category){
-        List<Article> articles = articleService.getAllArticleByCategory(category);
-        if(!articles.isEmpty()){
-            return ResponseEntity.ok().body(articles);
+    public ResponseEntity<?> getArticleByCategory(@RequestParam String category){
+        try {
+            Category categoryEnum = Category.valueOf(category.toUpperCase());
+            List<Article> articles = articleService.getAllArticleByCategory(categoryEnum);
+            if (!articles.isEmpty()) {
+                return ResponseEntity.ok().body(articles);
+            }
+            return ResponseEntity.noContent().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Invalid category: " + category);
         }
-        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")
@@ -72,7 +77,7 @@ public class ArticleController {
     public ResponseEntity<?> deleteArticleById(@PathVariable Long id) {
         try {
             articleService.deleteArticleById(id);
-            return ResponseEntity.ok("Articolo eliminato");
+            return ResponseEntity.ok("Successfully deleted user's comment");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

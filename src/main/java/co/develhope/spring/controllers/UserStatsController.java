@@ -31,14 +31,14 @@ public class UserStatsController {
     }
 
     @GetMapping("/avg-age")
-    public ResponseEntity<Short> avgAge() {
-        Short avgAge = userStatsService.avgAge();
+    public ResponseEntity<Float> avgAge() {
+        Float avgAge = userStatsService.avgAge();
         return ResponseEntity.ok(avgAge);
     }
 
     @GetMapping("/percentage-users-by-gender")
-    public ResponseEntity<Double> percentageOfUsersByGender() {
-        Double percentage = userStatsService.percentageOfUsersByGender();
+    public ResponseEntity<String> percentageOfUsersByGender() {
+        String percentage = userStatsService.percentageOfUsersByGender();
         return ResponseEntity.ok(percentage);
     }
 }

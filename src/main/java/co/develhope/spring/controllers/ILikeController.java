@@ -2,29 +2,32 @@ package co.develhope.spring.controllers;
 
 import co.develhope.spring.entities.ILike;
 import co.develhope.spring.services.ILikeService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RestController
+@RequestMapping("/like")
 public class ILikeController {
 
     @Autowired
     private ILikeService iLikeService;
 
-    @PostMapping("/like/{userId}")
+    @PostMapping("/{userId}")
     public ILike likeComment(@PathVariable Long userId, @RequestParam Long commentId) throws Throwable {
         return iLikeService.likeComment(userId, commentId);
     }
+
     @GetMapping("/user/{userId}")
     public List<ILike> getLikesByUser(@PathVariable Long userId) {
         return iLikeService.getLikesByUser(userId);
     }
 
-    @GetMapping("/comment/{commentId}")
+    @GetMapping("/{commentId}")
     public List<ILike> getLikesByComment(@PathVariable Long commentId) {
         return iLikeService.getLikesByComment(commentId);
     }
@@ -37,5 +40,17 @@ public class ILikeController {
     @GetMapping("/count/comment/{commentId}")
     public long countLikesByComment(@PathVariable Long commentId) {
         return iLikeService.countLikesByComment(commentId);
+    }
+
+    @DeleteMapping("/unlike/{userId}/{commentId}")
+    public ResponseEntity<String> unLikeComment(@PathVariable Long userId, @PathVariable Long commentId) {
+        try {
+            iLikeService.unLikeComment(userId, commentId);
+            return ResponseEntity.ok("Successfully unliked user's comment");
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Throwable e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred while unfollowing user's comment");
+        }
     }
 }

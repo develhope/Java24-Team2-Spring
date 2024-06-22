@@ -33,21 +33,22 @@ public class UserStatsServiceImpl implements UserStatsService {
     }
 
     @Override
-    public Short avgAge() {
+    public Float avgAge() {
         return userDetailsRepository.averageAge();
     }
 
     @Override
-    public Double percentageOfUsersByGender() {
+    public String percentageOfUsersByGender() {
         Long numberOfMales = userDetailsRepository.countByGender(Gender.MALE);
         Long numberOfFemales = userDetailsRepository.countByGender(Gender.FEMALE);
         Long numberOfNoBinary = userDetailsRepository.countByGender(Gender.NOBINARY);
 
         long totalUsers = numberOfMales + numberOfFemales + numberOfNoBinary;
 
-        Double percentageOfMales = (double) numberOfMales / totalUsers * 100;
-        Double percentageOfFemales = (double) numberOfFemales / totalUsers * 100;
-        Double percentageOfNonBinary = (double) numberOfNoBinary / totalUsers * 100;
-        return percentageOfMales + percentageOfFemales + percentageOfNonBinary;
+       float percentageOfMales =  (float) numberOfMales / totalUsers * 100;
+       float percentageOfFemales =  (float) numberOfFemales / totalUsers * 100;
+       float percentageOfNonBinary =  (float) numberOfNoBinary / totalUsers * 100;
+       return  "Male: " + percentageOfMales + "%\n" + "Female: " + percentageOfFemales
+                + "%\n" + "No binary: " + percentageOfNonBinary + "%";
     }
 }
