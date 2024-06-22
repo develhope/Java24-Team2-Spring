@@ -43,7 +43,7 @@ public class UserDetailServiceImpl implements UserDetailService {
         }
         UserDetails userDetails = userDetailsMapper.toEntity(userDetailsDto);
         user.setUserDetails(userDetails);
-        userRepository.save(user);
+        userDetailsRepository.save(userDetails);
         return userDetailsMapper.toDTO(userDetails);
     }
 
