@@ -29,7 +29,6 @@ public class UserDetailsDto {
         @Past(message = "You cannot be born in the future!")
         private LocalDate birthday;
 
-        @NotNull
         @Enumerated(EnumType.STRING)
         private Gender gender;
     }
