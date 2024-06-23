@@ -77,7 +77,7 @@ public class ArticleController {
     public ResponseEntity<?> deleteArticleById(@PathVariable Long id) {
         try {
             articleService.deleteArticleById(id);
-            return ResponseEntity.ok("Successfully deleted user's comment");
+            return ResponseEntity.ok("Successfully deleted user's article");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -88,10 +88,4 @@ public class ArticleController {
         articleService.deleteAllArticles();
         return ResponseEntity.noContent().build();
     }
-
-
-
-
-
-
 }

@@ -18,19 +18,19 @@ import java.util.List;
 public class UserDto {
     private Long id;
 
-    @NotNull(message = "L'email non può essere nulla")
-    @NotBlank(message = "L'email non può essere vuota")
-    @Email(message = "Inserisci un indirizzo e-mail valido")
+    @NotNull(message = "Email cannot be null")
+    @NotBlank(message = "Email cannot be blank")
+    @Email(message = "Please enter a valid email address")
     @Size(min = 6, max = 50)
     private String email;
 
-    @NotNull(message = "Il nome utente non può essere nullo")
-    @NotBlank(message = "Il nome utente non può essere vuoto")
+    @NotNull(message = "Username cannot be null")
+    @NotBlank(message = "Username cannot be blank")
     @Size(min = 5, max = 20)
     private String username;
 
-    @NotNull(message = "La password non può essere nulla")
-    @NotBlank(message = "La password non può essere vuota")
+    @NotNull(message = "Password cannot be null")
+    @NotBlank(message = "Password cannot be blank")
     @Size(min = 8, max = 100)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;

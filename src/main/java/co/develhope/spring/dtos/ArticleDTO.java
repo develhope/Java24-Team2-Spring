@@ -16,13 +16,13 @@ public class ArticleDTO {
 
     private Long id;
 
-    @NotNull(message = "Il titolo non può mancare!")
-    @NotBlank(message = "Il titolo non può essere vuoto")
+    @NotNull(message = "Title cannot be null")
+    @NotBlank(message = "Title cannot be blank")
     @Size(max = 50)
     private String title;
 
-    @NotNull(message = "Il testo non può mancare!")
-    @NotBlank(message = "Il testo non può essere vuoto")
+    @NotNull(message = "Text cannot be null")
+    @NotBlank(message = "Text cannot be blank")
     @Size(max = 50000)
     private String text;
 
