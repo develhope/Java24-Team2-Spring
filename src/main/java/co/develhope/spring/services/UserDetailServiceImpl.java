@@ -11,7 +11,9 @@ import co.develhope.spring.repositories.UserDetailsRepository;
 import co.develhope.spring.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -22,6 +24,8 @@ public class UserDetailServiceImpl implements UserDetailService {
     UserRepository userRepository;
     @Autowired
     UserDetailsMapper userDetailsMapper;
+    @Autowired
+    ImageService iMageService;
 
     @Override
     public UserDetailsDto getUserDetailsByUserId(Long userId) {
@@ -35,11 +39,19 @@ public class UserDetailServiceImpl implements UserDetailService {
     }
 
     @Override
-    public UserDetailsDto createUserDetails(UserDetailsDto userDetailsDto, Long userId) {
+    public UserDetailsDto createUserDetails(UserDetailsDto userDetailsDto, Long userId, MultipartFile profileImage, String bucketName, String destinationFolderName) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
         if (user.getUserDetails() != null) {
             throw new UserDetailsAlreadyExistException("User details already exist");
+        }
+        if (profileImage != null && !profileImage.isEmpty()) {
+            if (profileImage.getSize() > 1) {
+                throw new IllegalArgumentException("You can only upload one file.");
+            }
+            Map<String, String> uploadedObject = iMageService.uploadImage(profileImage, "profile", destinationFolderName, bucketName);
+            String fullLink = uploadedObject.get("fullLink");
+            userDetailsDto.setProfileImage(fullLink);
         }
         UserDetails userDetails = userDetailsMapper.toEntity(userDetailsDto);
         user.setUserDetails(userDetails);

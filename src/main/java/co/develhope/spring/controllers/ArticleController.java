@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -20,34 +21,38 @@ public class ArticleController {
     private ArticleService articleService;
 
     @PostMapping
-    public ResponseEntity<?> createArticle (@Valid @RequestBody Article article, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
+    public ResponseEntity<?> createArticle(@RequestPart(required = false) MultipartFile articleImage,
+                                           @RequestParam String bucketName,
+                                           @RequestParam String destinationFolderName,
+                                           @Valid @RequestBody Article article,
+                                           BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body((Article) bindingResult.getAllErrors());
         }
         try {
-            return ResponseEntity.ok().body(articleService.createArticle(article));
-        } catch (IllegalArgumentException e){
+            return ResponseEntity.ok().body(articleService.createArticle(article, articleImage, bucketName, destinationFolderName));
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<Article>> getAllArticle(){
+    public ResponseEntity<List<Article>> getAllArticle() {
         return ResponseEntity.ok().body(articleService.getAllArticle());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getArticleById(@PathVariable Long id) {
-            try {
-                ArticleDTO articleDTO = articleService.getArticleById(id);
-                return ResponseEntity.ok(articleDTO);
-            } catch (IllegalArgumentException e) {
-                return ResponseEntity.badRequest().body(e.getMessage());
-            }
+        try {
+            ArticleDTO articleDTO = articleService.getArticleById(id);
+            return ResponseEntity.ok(articleDTO);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @GetMapping("/category")
-    public ResponseEntity<?> getArticleByCategory(@RequestParam String category){
+    public ResponseEntity<?> getArticleByCategory(@RequestParam String category) {
         try {
             Category categoryEnum = Category.valueOf(category.toUpperCase());
             List<Article> articles = articleService.getAllArticleByCategory(categoryEnum);
@@ -66,7 +71,7 @@ public class ArticleController {
             return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
         }
         try {
-            ArticleDTO updatedArticle = articleService.upArticle(articleDTO,id);
+            ArticleDTO updatedArticle = articleService.upArticle(articleDTO, id);
             return ResponseEntity.ok(updatedArticle);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

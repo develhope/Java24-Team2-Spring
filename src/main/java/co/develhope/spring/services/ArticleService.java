@@ -3,12 +3,13 @@ package co.develhope.spring.services;
 import co.develhope.spring.dtos.ArticleDTO;
 import co.develhope.spring.entities.Article;
 import co.develhope.spring.enums.Category;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 public interface ArticleService {
 
-Article createArticle(Article article);
+Article createArticle(Article article, MultipartFile articleImage, String bucketName, String destinationFolderName);
 
 List<Article> getAllArticle();
 

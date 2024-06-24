@@ -30,6 +30,9 @@ public class Article {
     @Column(name = "posting_date", nullable = false)
     private LocalDateTime postingDate;
 
+    @Column(name = "article_image")
+    private String articleImage;
+
     @Column(nullable = false)
     private Category category;
 

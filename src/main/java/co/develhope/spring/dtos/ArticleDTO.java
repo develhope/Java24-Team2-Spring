@@ -26,6 +26,8 @@ public class ArticleDTO {
     @Size(max = 50000)
     private String text;
 
+    private String articleImage;
+
     @Enumerated(EnumType.STRING)
     private Category category;
 

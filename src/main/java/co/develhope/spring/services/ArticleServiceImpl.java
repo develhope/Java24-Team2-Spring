@@ -11,10 +11,12 @@ import co.develhope.spring.repositories.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -25,12 +27,21 @@ public class ArticleServiceImpl implements ArticleService {
     private ArticleMapper articleMapper;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ImageService iMageService;
 
     @Override
-    public Article createArticle(Article article){
+    public Article createArticle(Article article, MultipartFile profileImage, String bucketName, String destinationFolderName){
         User user = userRepository.findById(article.getUser().getId())
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
-
+        if (profileImage != null && !profileImage.isEmpty()) {
+            if (profileImage.getSize() > 1) {
+                throw new IllegalArgumentException("You can only upload one file.");
+            }
+            Map<String, String> uploadedObject = iMageService.uploadImage(profileImage, "profile", destinationFolderName, bucketName);
+            String fullLink = uploadedObject.get("fullLink");
+            article.setArticleImage(fullLink);
+        }
             article.setPostingDate(LocalDateTime.now());
             article.setUser(user);
             return articleRepository.saveAndFlush(article);

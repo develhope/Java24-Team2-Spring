@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/user-details")
@@ -29,12 +30,17 @@ public class UserDetailsController {
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<?> createUserDetails(@PathVariable Long id, @Valid @RequestBody UserDetailsDto userDetailsDto, BindingResult bindingResult) {
+    public ResponseEntity<?> createUserDetails(@PathVariable Long id,
+                                               @RequestPart(required = false) MultipartFile profileImage,
+                                               @RequestParam String bucketName,
+                                               @RequestParam String destinationFolderName,
+                                               @Valid @RequestBody UserDetailsDto userDetailsDto,
+                                               BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
         }
         try {
-            UserDetailsDto createdUserDetails = userDetailService.createUserDetails(userDetailsDto,id);
+            UserDetailsDto createdUserDetails = userDetailService.createUserDetails(userDetailsDto,id, profileImage, bucketName, destinationFolderName);
             return ResponseEntity.ok(createdUserDetails);
         } catch (UserDetailsAlreadyExistException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
