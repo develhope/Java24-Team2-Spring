@@ -1,9 +1,8 @@
 package co.develhope.spring.dtos;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 @Data
 public class FollowDto {
@@ -14,6 +13,5 @@ public class FollowDto {
 
     private Long userId;
 
-    @JsonFormat(pattern = "dd-MM-yyyy")
-    private LocalDate date;
+    private Date date;
 }

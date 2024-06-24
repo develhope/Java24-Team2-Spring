@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,7 +38,7 @@ public class FollowService {
         Follow follow = new Follow();
         follow.setFollower(follower);
         follow.setUser(user);
-        follow.setDate(LocalDateTime.now());
+        follow.setDate(new Date());
 
         followRepository.save(follow);
         return followMapper.toDTO(follow);

@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name="follows")
@@ -29,5 +29,5 @@ public class Follow {
     private User user;
 
     @Column(nullable = false)
-    private LocalDateTime date;
+    private Date date;
 }
