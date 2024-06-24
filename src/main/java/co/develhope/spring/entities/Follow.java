@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Entity
-@Table(name="follows")
+@Table(name="follows", uniqueConstraints = { @UniqueConstraint(columnNames = { "follower_id", "user_id",})})
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -19,12 +19,12 @@ public class Follow {
     private Long idFollow;
 
     @ManyToOne
-    @JoinColumn(name = "followerId", nullable = false)
+    @JoinColumn(name = "follower_id", nullable = false)
     @JsonBackReference(value = "user-follow")
     private User follower;
 
     @ManyToOne
-    @JoinColumn(name = "userId", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     @JsonBackReference(value = "follow-user")
     private User user;
 

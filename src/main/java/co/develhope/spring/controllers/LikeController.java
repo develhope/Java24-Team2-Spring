@@ -1,8 +1,8 @@
 package co.develhope.spring.controllers;
 
 import co.develhope.spring.dtos.LikeDto;
-import co.develhope.spring.entities.ILike;
-import co.develhope.spring.services.ILikeService;
+import co.develhope.spring.entities.Like;
+import co.develhope.spring.services.LikeService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,35 +13,35 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/like")
-public class ILikeController {
+public class LikeController {
 
     @Autowired
-    private ILikeService iLikeService;
+    private LikeService likeService;
 
     @PostMapping("/{userId}")
-    public ILike likeComment(@PathVariable Long userId, @RequestParam Long commentId) throws Throwable {
-        return iLikeService.likeComment(userId, commentId);
+    public Like likeComment(@PathVariable Long userId, @RequestParam Long commentId) throws Throwable {
+        return likeService.likeComment(userId, commentId);
     }
 
     @GetMapping("/{commentId}")
     public ResponseEntity<List<LikeDto>> getLikesByComment(@PathVariable Long commentId) {
-        return ResponseEntity.ok(iLikeService.getLikesByComment(commentId));
+        return ResponseEntity.ok(likeService.getLikesByComment(commentId));
     }
 
     @GetMapping("/count/user/{userId}")
     public long countLikesByUser(@PathVariable Long userId) {
-        return iLikeService.countLikesByUser(userId);
+        return likeService.countLikesByUser(userId);
     }
 
     @GetMapping("/count/comment/{commentId}")
     public long countLikesByComment(@PathVariable Long commentId) {
-        return iLikeService.countLikesByComment(commentId);
+        return likeService.countLikesByComment(commentId);
     }
 
     @DeleteMapping("/unlike/{userId}/{commentId}")
     public ResponseEntity<String> unLikeComment(@PathVariable Long userId, @PathVariable Long commentId) {
         try {
-            iLikeService.unLikeComment(userId, commentId);
+            likeService.unLikeComment(userId, commentId);
             return ResponseEntity.ok("Successfully unliked user's comment");
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
