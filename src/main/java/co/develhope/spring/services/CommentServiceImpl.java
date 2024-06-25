@@ -9,7 +9,7 @@ import co.develhope.spring.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -41,7 +41,7 @@ public class CommentServiceImpl implements CommentService{
 
         comment.setUser(user);
         comment.setArticle(article);
-        comment.setDateTime(new Date());
+        comment.setDateTime(LocalDateTime.now());
 
         return commentRepository.saveAndFlush(comment);
     }
@@ -52,7 +52,7 @@ public class CommentServiceImpl implements CommentService{
         if(optionalComment.isPresent()){
             Comment existComment = optionalComment.get();
             existComment.setText(comment.getText());
-            existComment.setDateTime((comment.getDateTime()));
+            existComment.setDateTime(LocalDateTime.now());
             return commentRepository.saveAndFlush(existComment);
         }else{
             throw new NoSuchElementException("Comment not found");
@@ -67,6 +67,5 @@ public class CommentServiceImpl implements CommentService{
         } else {
             throw new NoSuchElementException("Comment not found");
         }
-
     }
 }

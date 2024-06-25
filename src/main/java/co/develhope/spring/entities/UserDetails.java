@@ -6,21 +6,20 @@ import lombok.*;
 
 import java.time.LocalDate;
 
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Entity
-@Table(name="user_details")
+@Table(name="users_details")
 public class UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name= "first_name",nullable = false)
     private String firstName;
 
-    @Column(nullable = false)
+    @Column(name= "last_name",nullable = false)
     private String lastName;
 
     @Column

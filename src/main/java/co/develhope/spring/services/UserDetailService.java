@@ -6,7 +6,7 @@ public interface UserDetailService {
 
     UserDetailsDto getUserDetailsByUserId(Long userId);
 
-    UserDetailsDto createUserDetails(UserDetailsDto userDetailsDto, Long userId);
+    UserDetailsDto createUserDetails(UserDetailsDto userDetailsDto,Long userId);
 
     UserDetailsDto updateUserDetailsForUser(Long userId, UserDetailsDto userDetailsDto);
 

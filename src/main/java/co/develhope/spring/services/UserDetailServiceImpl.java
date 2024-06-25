@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+
 @Service
 public class UserDetailServiceImpl implements UserDetailService {
     @Autowired
@@ -42,7 +43,7 @@ public class UserDetailServiceImpl implements UserDetailService {
         }
         UserDetails userDetails = userDetailsMapper.toEntity(userDetailsDto);
         user.setUserDetails(userDetails);
-        userRepository.save(user);
+        userDetailsRepository.save(userDetails);
         return userDetailsMapper.toDTO(userDetails);
     }
 

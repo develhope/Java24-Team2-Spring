@@ -11,19 +11,18 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table
-public class ILike {
-
+@Table(name = "likes",uniqueConstraints = { @UniqueConstraint(columnNames = { "user_id", "comment_id" })} )
+public class Like {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "UserId")
+    @JoinColumn(name = "User_id")
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "CommentId")
+    @JoinColumn(name = "Comment_id")
     private Comment comment;
 
     private LocalDateTime dateTime;
