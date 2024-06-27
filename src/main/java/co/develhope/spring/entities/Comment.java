@@ -1,8 +1,6 @@
 package co.develhope.spring.entities;
 
-import co.develhope.spring.dtos.UserDto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -11,7 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Table(name = "comments")
 @Data
@@ -27,11 +25,11 @@ public class Comment {
     @Column(name = "comment_text", nullable = false)
     @NotNull
     @NotBlank
-    @Size(min = 1, max = 100)
+    @Size(min = 1, max = 8000)
     private String text;
 
-    @Column(name = "comment_datetime")
-    private Date dateTime;
+    @Column(name = "comment_date")
+    private LocalDateTime dateTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -42,9 +40,4 @@ public class Comment {
     @JoinColumn(name = "article_id")
     @JsonBackReference(value = "article-comment")
     private Article article;
-
-    public String getUserName(){
-        return this.user.getUsername();
-    }
-    // recupera id utente per mostrarlo nella get dei comment
 }

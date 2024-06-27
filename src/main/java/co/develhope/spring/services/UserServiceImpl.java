@@ -6,7 +6,6 @@ import co.develhope.spring.entities.User;
 import co.develhope.spring.exceptions.UserAlreadyExistsException;
 import co.develhope.spring.exceptions.UserNotFoundException;
 import co.develhope.spring.repositories.UserRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

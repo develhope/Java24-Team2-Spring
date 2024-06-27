@@ -1,35 +1,33 @@
 package co.develhope.spring.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
-@Table
+@Table(name="follows", uniqueConstraints = { @UniqueConstraint(columnNames = { "follower_id", "user_id",})})
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class Follow {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idFollow;
 
     @ManyToOne
-    @JoinColumn(name = "followerId", nullable = false)
+    @JoinColumn(name = "follower_id", nullable = false)
     @JsonBackReference(value = "user-follow")
-    private User follower; // Tieni i follower come già erano prima.
+    private User follower;
 
     @ManyToOne
-    @JoinColumn(name = "userId", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     @JsonBackReference(value = "follow-user")
-    private User user; // Sostituire 'followed' con 'user'
+    private User user;
 
     @Column(nullable = false)
-    private LocalDateTime dataOra;
+    private Date date;
 }
